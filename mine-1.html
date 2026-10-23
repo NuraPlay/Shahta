@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Шахта — бесплатная idle-игра онлайн (кликер)</title>
+<meta name="description" content="Шахта — бесплатная idle-игра в браузере: копай руду, нанимай шахтёров, открывай новые шахты, выполняй задания и расти в ранге. Без скачивания.">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Шахта — бесплатная idle-игра онлайн">
+<meta property="og:description" content="Копай руду, нанимай шахтёров, открывай новые шахты и расти в ранге от Бронзы до Легенды.">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9510884043494446" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&display=swap">
+<style>
+:root{--bg:#e6ebf1;--card:#fff;--ink:#1d2430;--mute:#5d6878;--line:#d3d9e2;--acc:#0f8a68;--accInk:#fff;--gold:#a96d05;--rock:#8a7f74;
+ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161a23;--card:#212735;--ink:#e8ecf3;--mute:#9aa5b6;--line:#303849;--acc:#3dd6a8;--accInk:#0b2a21;--gold:#f0b429}}
+:root[data-theme="dark"]{--bg:#161a23;--card:#212735;--ink:#e8ecf3;--mute:#9aa5b6;--line:#303849;--acc:#3dd6a8;--accInk:#0b2a21;--gold:#f0b429}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Rubik,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
+#app{max-width:480px;margin:0 auto;padding:16px 14px 40px}
+.top{text-align:center}
+#coins{font-size:44px;font-weight:800;line-height:1.1;letter-spacing:-.02em}
+#ps{color:var(--mute);font-size:15px;margin-top:2px}
+.stage{position:relative;display:flex;flex-direction:column;align-items:center;margin:14px 0 6px}
+#rock{background:none;border:0;padding:0;width:210px;cursor:pointer;transition:transform .07s}
+#rock:active{transform:scale(.93)}
+#rock:focus-visible,.buy:focus-visible,.act:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
+#rock svg{display:block;width:100%;height:auto}
+.depth{margin-top:4px;font-weight:600;font-size:18px}
+.strata{color:var(--mute);font-size:14px;display:flex;align-items:center;gap:6px}
+.strata i{width:12px;height:12px;border-radius:3px;background:var(--rock);display:inline-block}
+.fl{position:absolute;font-weight:800;color:var(--gold);pointer-events:none;animation:up .8s ease-out forwards;font-size:20px}
+@keyframes up{to{transform:translateY(-70px);opacity:0}}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}
+.act{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:14px;padding:10px 8px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;line-height:1.25}
+.act small{display:block;font-weight:400;color:var(--mute);font-size:12px;margin-top:2px}
+.act.on{border-color:var(--acc)}
+.act:disabled{opacity:.45;cursor:default}
+.act.on:disabled{opacity:1}
+.tgs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:-4px 0 14px}
+.tgs .act{padding:8px;font-weight:400;color:var(--mute)}
+.tgs .act.on{color:var(--ink);font-weight:600}
+.ranks{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:4px;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:12px 8px}
+.rk{flex:0 0 calc(20% - 4px);margin-bottom:6px;text-align:center;font-size:11px;color:var(--mute)}
+.rk i{display:block;width:34px;height:34px;border-radius:50%;margin:0 auto 4px;background:var(--line);border:2px solid transparent}
+.rk.got{color:var(--ink);font-weight:600}
+.rk.got i{background:var(--c);box-shadow:inset 0 -4px 0 rgba(0,0,0,.18),inset 0 3px 0 rgba(255,255,255,.35)}
+.rk.cur i{border-color:var(--ink)}
+.pcard{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;margin:0 0 14px}
+.pt{font-weight:600;font-size:15px}
+.bar{height:8px;border-radius:4px;background:var(--line);margin:8px 0;overflow:hidden}
+.bar b{display:block;height:100%;width:0;background:var(--acc);transition:width .25s}
+.pd{color:var(--mute);font-size:13px;line-height:1.4}
+.act.ready{border-color:var(--gold);animation:glow 1.6s ease-in-out infinite}
+@keyframes glow{50%{box-shadow:0 0 0 4px rgba(240,180,41,.4)}}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:10px 10px 10px 14px;margin-bottom:8px}
+.inf b{font-size:16px;display:block}
+.inf span{color:var(--mute);font-size:13px}
+.buy{flex:none;min-width:96px;border:0;border-radius:10px;background:var(--acc);color:var(--accInk);font:inherit;font-weight:600;font-size:15px;padding:10px 12px;cursor:pointer}
+.buy:disabled{background:var(--line);color:var(--mute);cursor:default}
+h2{font-size:15px;margin:18px 2px 8px;color:var(--mute);font-weight:600}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s;max-width:90%;text-align:center}
+#toast.show{opacity:1}
+/* частицы */
+.spark{position:absolute;pointer-events:none;border-radius:50%;animation:sp .55s ease-out forwards}
+@keyframes sp{to{transform:translate(var(--dx),var(--dy));opacity:0}}
+/* монеты летят в счётчик */
+.fc{position:fixed;font-weight:800;color:var(--gold);pointer-events:none;font-size:18px;animation:fc .65s ease-in forwards;z-index:99}
+@keyframes fc{to{transform:translate(var(--tx),var(--ty)) scale(.4);opacity:0}}
+/* прогресс-бар на кнопке покупки */
+.row{position:relative;overflow:hidden}
+.row .bp{position:absolute;left:0;bottom:0;height:3px;background:var(--acc);opacity:.35;transition:width .3s;pointer-events:none}
+/* заголовок, текстовый блок, подвал */
+.back2{display:inline-block;font-size:14px;font-weight:600;color:var(--acc);text-decoration:none;margin-bottom:4px}
+.ttl{font-size:15px;margin:0 0 8px;text-align:center;color:var(--mute);font-weight:600}
+.info{margin-top:32px;border-top:1px solid var(--line);padding-top:4px}
+.info h2{font-size:19px;color:var(--ink);margin:24px 0 8px}
+.info p,.info li,.info summary{font-size:15px;line-height:1.65}
+.info ul,.info ol{padding-left:22px;margin:8px 0}
+.info li{margin-bottom:5px}
+.info details{background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.info summary{cursor:pointer;font-weight:600}
+.info details p{margin:8px 0 0;color:var(--mute)}
+.foot{margin-top:28px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--mute);text-align:center;line-height:2}
+.foot a{color:var(--acc);text-decoration:none;margin:0 6px;font-weight:600}
+/* задания */
+.qcard{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:8px}
+.qcard .qt{font-weight:600;font-size:14px}
+.qcard .qb{height:6px;border-radius:3px;background:var(--line);margin:6px 0 4px;overflow:hidden}
+.qcard .qb b{display:block;height:100%;background:var(--acc)}
+.qcard .ql{color:var(--mute);font-size:12px}
+.qcard.done{border-color:var(--acc)}
+/* события */
+.evcard{background:var(--card);border:1.5px solid var(--gold);border-radius:14px;padding:10px 14px;margin-bottom:8px;display:none}
+.evcard.on{display:block}
+.evcard .et{font-weight:600;font-size:14px}
+.evcard .el{color:var(--mute);font-size:12px;margin-top:3px}
+/* артефакты */
+.art{position:absolute;font-size:28px;pointer-events:none;animation:artpop .9s ease-out forwards;cursor:default}
+@keyframes artpop{0%{transform:scale(0) rotate(-20deg);opacity:1}60%{transform:scale(1.3) rotate(5deg);opacity:1}100%{transform:scale(1) rotate(0);opacity:.95}}
+.artcol{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 0}
+.artbadge{font-size:22px;line-height:1}
+details.pcard summary{cursor:pointer;font-weight:600;font-size:15px}
+.achr{display:flex;gap:10px;align-items:center;padding:6px 0;font-size:14px}
+.achr.lock{opacity:.4}
+.achr small{display:block;color:var(--mute);font-size:12px}
+@media (prefers-reduced-motion:reduce){.fl,.spark,.fc,.art{animation:none;opacity:0}#rock{transition:none}.act.ready{animation:none}}
+</style>
+</head>
+<body>
+<div id="app">
+  <a class="back2" href="index.html">← Все игры</a>
+  <h1 class="ttl">Шахта — бесплатная idle-игра</h1>
+  <div class="top"><div id="coins">0</div><div id="ps"></div></div>
+  <div class="stage" id="stage">
+    <button id="rock" aria-label="Копать">
+      <svg viewBox="0 0 200 170" aria-hidden="true">
+        <polygon points="18,152 36,72 84,24 142,34 184,86 178,152" fill="var(--rock)"/>
+        <polygon points="36,72 84,24 112,92 60,112" fill="#fff" opacity=".2"/>
+        <polygon points="112,92 142,34 184,86 150,120" fill="#000" opacity=".12"/>
+        <polygon points="18,152 60,112 112,92 150,120 178,152" fill="#000" opacity=".22"/>
+        <polygon points="96,70 108,50 122,72 110,86" fill="#3dd6a8"/>
+        <polygon points="52,120 60,104 70,122 60,132" fill="#f0b429"/>
+        <polygon points="138,128 148,110 158,130 148,140" fill="#5aa9ff"/>
+      </svg>
+    </button>
+    <div class="depth" id="depth"></div>
+    <div class="strata"><i id="sw"></i><span id="sn"></span></div>
+  </div>
+  <div class="evcard" id="evcard"><div class="et" id="et"></div><div class="el" id="el"></div></div>
+  <div class="acts">
+    <button class="act" id="boost"></button>
+    <button class="act" id="prest"></button>
+  </div>
+  <div class="pcard"><div class="pt" id="pt"></div><div class="bar"><b id="pb"></b></div><div class="pd" id="pd"></div></div>
+  <h2>Улучшения</h2>
+  <div id="list"></div>
+  <h2 id="resh"></h2>
+  <div id="research"></div>
+  <h2>⚔️ Ежедневные задания</h2>
+  <div id="quests"></div>
+  <h2>🪨 Артефакты</h2>
+  <div class="pcard"><div class="artcol" id="artcol"></div><div class="pd" id="arttip">Редкие артефакты иногда выпадают при клике. Каждый даёт постоянный бонус.</div></div>
+  <details class="pcard" id="achd"><summary id="achs"></summary><div id="achl"></div></details>
+  <div class="tgs"><button class="act" id="tsnd"></button><button class="act" id="tmus"></button></div>
+  <h2 id="rh"></h2>
+  <div class="ranks" id="ranks"></div>
+  <section class="info" id="about">
+    <h2>Об игре «Шахта»</h2>
+    <p>«Шахта» — бесплатная idle-игра (кликер с автоматической добычей), которая работает прямо в браузере на телефоне и компьютере. Ничего скачивать и устанавливать не нужно: открыл страницу и можно копать. Прогресс сохраняется на твоём устройстве автоматически.</p>
+    <p>Твоя задача — превратить маленькую шахту в большое горное предприятие. Сначала ты копаешь породу вручную, затем нанимаешь шахтёров и покупаешь технику, и добыча идёт сама, даже когда вкладка закрыта: офлайн-доход копится до 4 часов (исследования увеличивают лимит).</p>
+    <h2>Как играть</h2>
+    <ol>
+      <li>Нажимай на породу: каждый клик приносит монеты.</li>
+      <li>Покупай «Кирку»: она увеличивает добычу за один клик.</li>
+      <li>Нанимай шахтёров и покупай технику: Шахтёр, Бур, Вагонетка, Экскаватор, Лифт в глубину, Плазменный бур, Подземный завод, Кристальный реактор, Центр ядра и Портал недр приносят монеты каждую секунду. С каждой покупкой цена растёт, поэтому важно выбирать выгодные улучшения.</li>
+      <li>Копай глубже: пласты породы меняются от глины и известняка до гранита, кварца, базальта, магмы, мантии и ядра Земли.</li>
+      <li>Когда за один заход добыто 1 миллион монет, открывается «Новая шахта». Сброс обнуляет монеты и улучшения, но даёт самородки (каждый навсегда увеличивает доход на 5%), очки исследований и новый ранг от Бронзы до Повелителя.</li>
+      <li>Трать очки исследований на постоянные улучшения: больше дохода, дешевле цены, дольше офлайн-доход.</li>
+      <li>Выполняй ежедневные задания, открывай достижения, лови случайные события и ищи редкие артефакты.</li>
+    </ol>
+    <h2>Особенности игры</h2>
+    <ul>
+      <li>Автоматическая добыча и офлайн-доход до 4 часов (до 14 часов с исследованиями).</li>
+      <li>Десять видов улучшений и кирка, которая усиливает каждый клик.</li>
+      <li>Пять веток исследований и 18 достижений с постоянными бонусами.</li>
+      <li>Система «Новая шахта»: сброс прогресса ради постоянного бонуса и ранга.</li>
+      <li>Четыре ежедневных задания с наградой.</li>
+      <li>Случайные события: «Золотая жила», «Обвал», «Электрошок» и «Подземный поток».</li>
+      <li>Восемь редких артефактов с постоянными бонусами.</li>
+      <li>Спокойная музыка и звуки, которые можно отключить.</li>
+    </ul>
+    <h2>Частые вопросы</h2>
+    <details><summary>Игра бесплатная?</summary><p>Да, полностью бесплатная. На сайте показывается реклама Google AdSense, она помогает развивать игру.</p></details>
+    <details><summary>Где хранится мой прогресс?</summary><p>В браузере на твоём устройстве. Если очистить данные сайта или открыть игру в другом браузере, прогресс не перенесётся.</p></details>
+    <details><summary>Что такое самородки и ранги?</summary><p>Самородки ты получаешь при сбросе через «Новую шахту». Каждый даёт +5% к доходу навсегда и одно очко исследований. Ранг растёт с каждым сбросом: Бронза, Серебро, Золото, Платина, Алмаз, Легенда, Мастер, Магнат, Титан, Повелитель.</p></details>
+    <details><summary>Как отключить звук или музыку?</summary><p>Кнопки «Звук» и «Музыка» находятся под блоком новой шахты, их можно выключить по отдельности.</p></details>
+    <p>Больше советов в <a href="guide.html" style="color:var(--acc)">руководстве для начинающих</a>.</p>
+  </section>
+  <footer class="foot">
+    <a href="index.html">Все игры</a><a href="about.html">О проекте</a><a href="guide.html">Руководство</a><a href="privacy.html">Политика конфиденциальности</a><a href="mailto:YOUR_EMAIL@gmail.com">Контакты</a><br>© 2026 Шахта
+  </footer>
+</div>
+<div id="toast" role="status"></div>
+<script>
+const KEY='mine_v1';
+const W=[{n:'Шахтёр',b:15,r:.4},{n:'Бур',b:150,r:3},{n:'Вагонетка',b:1800,r:18},{n:'Экскаватор',b:24000,r:110},{n:'Лифт в глубину',b:360000,r:700},{n:'Плазменный бур',b:5.5e6,r:4500},{n:'Подземный завод',b:9e7,r:30000},{n:'Кристальный реактор',b:1.6e9,r:210000},{n:'Центр ядра',b:3e10,r:1.5e6},{n:'Портал недр',b:7e11,r:1.1e7}];
+const ST=[{d:0,n:'Глина',c:'#a5764f'},{d:50,n:'Известняк',c:'#b9b2a0'},{d:200,n:'Гранит',c:'#8d8a94'},{d:600,n:'Кварц',c:'#9fb4cc'},{d:1500,n:'Базальт',c:'#566070'},{d:4000,n:'Магма',c:'#b4472f'},{d:9000,n:'Мантия',c:'#d35400'},{d:20000,n:'Ядро Земли',c:'#e1b12c'}];
+const SU=['','тыс','млн','млрд','трлн','квдр','квнт','секст','септ'];
+// артефакты
+const ARTS=[
+  {e:'💎',n:'Алмаз',tip:'×1,5 к кликам',apply:s=>{s._artK=(s._artK||1)*1.5}},
+  {e:'🔥',n:'Огненный кристалл',tip:'+30% к доходу/с',apply:s=>{s._artP=(s._artP||1)*1.3}},
+  {e:'⚡',n:'Молния',tip:'×2 к кликам',apply:s=>{s._artK=(s._artK||1)*2}},
+  {e:'🌟',n:'Самородок',tip:'+50% к доходу/с',apply:s=>{s._artP=(s._artP||1)*1.5}},
+  {e:'🧲',n:'Магнит',tip:'+1 самородок и очко исследований',apply:s=>{s.nug=(s.nug||0)+1;s.rp=(s.rp||0)+1}},
+  {e:'🪙',n:'Золотая монета',tip:'+50 000 монет сразу',apply:s=>{s.coins=(s.coins||0)+50000}},
+  {e:'🔮',n:'Мистический шар',tip:'×3 к кликам',apply:s=>{s._artK=(s._artK||1)*3}},
+  {e:'🏔️',n:'Гора',tip:'+100% к доходу/с',apply:s=>{s._artP=(s._artP||1)*2}},
+];
+// достижения: каждое даёт +3% к доходу навсегда
+const ACH=[
+ {e:'👆',n:'Первые удары',d:'100 кликов',f:s=>(s.clicks||0)>=100},
+ {e:'💪',n:'Упорный шахтёр',d:'1 000 кликов',f:s=>(s.clicks||0)>=1000},
+ {e:'🔨',n:'Железные руки',d:'10 000 кликов',f:s=>(s.clicks||0)>=10000},
+ {e:'🛒',n:'Покупатель',d:'50 улучшений',f:s=>(s.buys||0)>=50},
+ {e:'🏗️',n:'Строитель',d:'500 улучшений',f:s=>(s.buys||0)>=500},
+ {e:'💰',n:'Миллионер',d:'1 млн монет за всё время',f:s=>(s.tot||0)>=1e6},
+ {e:'🏦',n:'Миллиардер',d:'1 млрд монет за всё время',f:s=>(s.tot||0)>=1e9},
+ {e:'🏛️',n:'Триллионер',d:'1 трлн монет за всё время',f:s=>(s.tot||0)>=1e12},
+ {e:'🛗',n:'Вниз!',d:'Купить Лифт в глубину',f:s=>(s.w[4]||0)>=1},
+ {e:'⚛️',n:'Энергия кристаллов',d:'Купить Кристальный реактор',f:s=>(s.w[7]||0)>=1},
+ {e:'🌀',n:'За пределами',d:'Купить Портал недр',f:s=>(s.w[9]||0)>=1},
+ {e:'⛰️',n:'Глубокая шахта',d:'Глубина 1 000 м',f:s=>(s.maxD||0)>=1000},
+ {e:'🌋',n:'У самого ядра',d:'Глубина 10 000 м',f:s=>(s.maxD||0)>=10000},
+ {e:'🔁',n:'Новое начало',d:'Первая новая шахта',f:s=>(s.pr||0)>=1},
+ {e:'🏅',n:'Ветеран',d:'5 новых шахт',f:s=>(s.pr||0)>=5},
+ {e:'👑',n:'Легенда шахт',d:'10 новых шахт',f:s=>(s.pr||0)>=10},
+ {e:'🪨',n:'Коллекционер',d:'4 артефакта',f:s=>(s.arts||[]).length>=4},
+ {e:'🏺',n:'Хранитель',d:'Все 8 артефактов',f:s=>(s.arts||[]).length>=8},
+];
+// исследования за очки, которые даёт «Новая шахта»
+const RES=[
+ {n:'Геологоразведка',d:l=>'+'+l*20+'% к доходу в секунду',max:10,cost:l=>2+2*l},
+ {n:'Тяжёлая кирка',d:l=>'+'+l*50+'% к клику',max:10,cost:l=>1+l},
+ {n:'Ночная смена',d:l=>'офлайн-доход до '+(4+2*l)+' ч',max:5,cost:l=>3+3*l},
+ {n:'Скидки поставщиков',d:l=>'−'+l*2+'% к ценам',max:10,cost:l=>3+2*l},
+ {n:'Стартовый капитал',d:l=>'после сброса: '+(l?fmt(1000*Math.pow(5,l-1)):'0')+' монет',max:5,cost:l=>2+2*l},
+];
+// случайные события
+const EVTS=[
+  {n:'🪨 Золотая жила!',d:'Добыча ×3 на 30 секунд',dur:30000,mult:3},
+  {n:'💥 Обвал!',d:'Добыча −70% на 20 секунд',dur:20000,mult:.3},
+  {n:'⚡ Электрошок!',d:'Клики ×5 на 15 секунд',dur:15000,clickMult:5},
+  {n:'🌊 Подземный поток',d:'Автодобыча ×2 на 45 секунд',dur:45000,mult:2},
+];
+const fresh=()=>({coins:0,run:0,k:0,w:W.map(()=>0),nug:0,rp:0,res:[],ach:[],tot:0,maxD:0,boosts:0,pr:0,boost:0,chest:0,clicks:0,buys:0,arts:[],t:Date.now()});
+let S=fresh();
+function initQuests(){
+  const day=Math.floor(Date.now()/86400000);
+  if(S.qday===day&&S.quests&&S.quests[0]&&S.quests[0].need)return;
+  S.qday=day;const inc=Math.max(ps(),1);
+  S.quests=[
+    {n:'Добыть монет',k:'tot',base:S.tot||0,need:Math.max(5e4,inc*3600),rew:Math.max(2000,inc*900),done:false},
+    {n:'Кликнуть по породе',k:'clicks',base:S.clicks||0,need:200,rew:Math.max(1000,inc*300),done:false},
+    {n:'Купить улучшений',k:'buys',base:S.buys||0,need:15,rew:Math.max(1500,inc*400),done:false},
+    {n:'Включить бонус ×2',k:'boosts',base:S.boosts||0,need:1,rew:Math.max(1000,inc*600),done:false}]}
+try{const r=localStorage.getItem(KEY);if(r){const o=JSON.parse(r);S=Object.assign(fresh(),o);if(o.rp===undefined)S.rp=S.nug||0;if(!Array.isArray(S.w)||S.w.length!==W.length)S.w=W.map((_,i)=>(o.w&&o.w[i])||0)}}catch(e){}
+
+const $=id=>document.getElementById(id);
+function fmt(n){if(n<1000)return (n<10?Math.floor(n*10)/10:Math.floor(n)).toLocaleString('ru-RU');let i=0;while(n>=1000&&i<SU.length-1){n/=1000;i++}return n.toFixed(n<10?2:n<100?1:0).replace('.',',')+' '+SU[i]}
+const evMult=()=>{if(!S.ev||Date.now()>S.ev.end)return{ps:1,cl:1};const e=EVTS[S.ev.i];return{ps:e.mult||1,cl:e.clickMult||1}};
+const resLv=i=>(S.res&&S.res[i])||0;
+const achMult=()=>1+.03*(S.ach||[]).length;
+const mult=()=>(1+.05*S.nug)*(1+.2*resLv(0))*achMult()*(S.boost>Date.now()?2:1)*(S._artP||1)*evMult().ps;
+const cap=()=>(4+2*resLv(2))*3600;
+const dOf=r=>Math.floor(Math.pow(Math.max(0,r),.42)/4);
+const startCoins=()=>{const l=resLv(4);return l?1000*Math.pow(5,l-1):0};
+const clickMult=()=>(S._artK||1)*(1+.5*resLv(1))*evMult().cl;
+const ps=()=>W.reduce((a,w,i)=>a+w.r*S.w[i],0)*mult();
+const clickPow=()=>(1+S.k)*mult()*clickMult();
+const wCost=i=>Math.ceil(W[i].b*Math.pow(1.17,S.w[i])*(1-.02*resLv(3)));
+const kCost=()=>Math.ceil(30*Math.pow(1.7,S.k)*(1-.02*resLv(3)));
+const pGain=()=>Math.floor(Math.sqrt(S.run/1e6));
+function gain(x){S.coins+=x;S.run+=x;S.tot=(S.tot||0)+x}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+let tt;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),3200)}
+
+// ранги за каждое обновление шахты
+const RK=[{n:'Бронза',c:'#b87333'},{n:'Серебро',c:'#b8c0cc'},{n:'Золото',c:'#f0b429'},{n:'Платина',c:'#7fd1e0'},{n:'Алмаз',c:'#5aa9ff'},{n:'Легенда',c:'#c77dff'},{n:'Мастер',c:'#ff9f43'},{n:'Магнат',c:'#2ecc71'},{n:'Титан',c:'#ff6b6b'},{n:'Повелитель',c:'#f368e0'}];
+$('ranks').innerHTML=RK.map(r=>`<div class='rk' style='--c:${r.c}'><i></i>${r.n}</div>`).join('');
+
+// звук и музыка: синтез в браузере, файлы не нужны
+let AC=null,MG,SG,NB,snd=true,musOn=true,mNext=0,mStep=0;
+try{const p=JSON.parse(localStorage.getItem('mine_snd')||'{}');if(p.s===0)snd=false;if(p.m===0)musOn=false}catch(e){}
+const savePrefs=()=>{try{localStorage.setItem('mine_snd',JSON.stringify({s:snd?1:0,m:musOn?1:0}))}catch(e){}};
+function ac(){
+  if(!AC){try{AC=new(window.AudioContext||window.webkitAudioContext)();
+    SG=AC.createGain();SG.gain.value=.5;SG.connect(AC.destination);
+    MG=AC.createGain();MG.gain.value=musOn?.35:0;MG.connect(AC.destination);
+    NB=AC.createBuffer(1,AC.sampleRate*.2,AC.sampleRate);const d=NB.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
+    mNext=AC.currentTime+.1}catch(e){AC=null}}
+  if(AC&&AC.state==='suspended')AC.resume();return AC}
+function tone(f,when,dur,type,vol,slide,dest){
+  const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.setValueAtTime(f,when);
+  if(slide)o.frequency.exponentialRampToValueAtTime(slide,when+dur);
+  g.gain.setValueAtTime(.0001,when);g.gain.exponentialRampToValueAtTime(vol,when+.02);g.gain.exponentialRampToValueAtTime(.0001,when+dur);
+  o.connect(g);g.connect(dest);o.start(when);o.stop(when+dur+.05)}
+const T=(f,off,d,type,v,sl)=>{if(snd&&ac())tone(f,AC.currentTime+off,d,type,v,sl,SG)};
+const sfx={
+  hit(){if(!snd||!ac())return;const t=AC.currentTime,r=.85+Math.random()*.3;
+    tone(190*r,t,.12,'triangle',.7,60,SG);
+    const s=AC.createBufferSource(),f=AC.createBiquadFilter(),g=AC.createGain();s.buffer=NB;f.type='bandpass';f.frequency.value=2200*r;f.Q.value=.8;
+    g.gain.setValueAtTime(.5,t);g.gain.exponentialRampToValueAtTime(.001,t+.07);s.connect(f);f.connect(g);g.connect(SG);s.start(t);s.stop(t+.1);
+    if(Math.random()<.18)tone(1320*r,t+.03,.18,'sine',.25,0,SG)},
+  buy(){T(660,0,.1,'square',.12);T(990,.07,.16,'square',.12)},
+  boost(){[523,659,784,1047].forEach((f,i)=>T(f,i*.07,.18,'triangle',.3))},
+  rank(){[523,659,784,1047,1319].forEach((f,i)=>{T(f,i*.12,.5,'triangle',.35);T(f/2,i*.12,.5,'square',.08)})}
+};
+const CH=[[220,261.63,329.63],[174.61,220,261.63],[261.63,329.63,392],[196,246.94,293.66]],BS=[110,87.31,130.81,98],PT=[0,1,2,1,2,1,0,2];
+setInterval(()=>{if(!AC||!musOn||AC.state!=='running')return;
+  if(mNext<AC.currentTime)mNext=AC.currentTime+.05;
+  while(mNext<AC.currentTime+.4){const ci=Math.floor(mStep/8)%4,k=mStep%8;
+    if(k===0){tone(BS[ci],mNext,2.8,'sine',.5,0,MG);CH[ci].forEach(f=>tone(f,mNext,2.8,'sine',.12,0,MG))}
+    tone(CH[ci][PT[k]]*2,mNext,.55,'triangle',.22,0,MG);mStep++;mNext+=.34}},120);
+document.addEventListener('pointerdown',()=>{ac()});
+$('tsnd').addEventListener('click',()=>{snd=!snd;savePrefs();if(snd)sfx.buy();render()});
+$('tmus').addEventListener('click',()=>{musOn=!musOn;savePrefs();if(ac()){MG.gain.value=musOn?.35:0;mNext=AC.currentTime+.05}render()});
+
+// монеты летят в счётчик
+function flyCoins(from){
+  const fr=from.getBoundingClientRect(),to=$('coins').getBoundingClientRect();
+  const tx=to.left+to.width/2-fr.left-fr.width/2,ty=to.top+to.height/2-fr.top-fr.height/2;
+  for(let i=0;i<4;i++){const fc=document.createElement('span');fc.className='fc';fc.textContent='🪙';
+    fc.style.cssText=`left:${fr.left+fr.width/2}px;top:${fr.top+fr.height/2}px;--tx:${tx}px;--ty:${ty}px;animation-delay:${i*.08}s`;
+    document.body.appendChild(fc);setTimeout(()=>fc.remove(),750)}}
+
+// подсказка про новую шахту
+let pReady=pGain()>=1;
+const mx=n=>'×'+(1+.05*n).toFixed(2).replace('.',',');
+function prestInfo(g,p){
+  const Q=1e6,n=S.nug;
+  if(g<1){
+    pReady=false;p.classList.remove('ready');
+    $('pt').textContent='Новая шахта пока закрыта';
+    $('pb').style.width=Math.min(100,S.run/Q*100)+'%';
+    $('pd').textContent='Добыто за заход: '+fmt(S.run)+' из '+fmt(Q)+'. Потом сброс даст +5% к доходу за каждый самородок, очки исследований и новый ранг.';
+    return}
+  const rec=g>=Math.max(1,n*.5),lo=g*g*Q,hi=(g+1)*(g+1)*Q;
+  if(!pReady){pReady=true;sfx.boost();toast('Новая шахта открыта: сброс даст +'+g*5+'% к доходу')}
+  p.classList.toggle('ready',rec);
+  $('pt').textContent=rec?'Выгодно сбросить сейчас':'Открыта, но лучше добыть ещё';
+  $('pb').style.width=Math.min(100,(S.run-lo)/(hi-lo)*100)+'%';
+  $('pd').textContent='Доход сейчас '+mx(n)+', после сброса '+mx(n+g)+' и ранг '+RK[Math.min(S.pr,RK.length-1)].n+'. Монеты и улучшения сбросятся, самородки, исследования, артефакты и ранг останутся. Очков исследований: +'+g+'. До следующего самородка: '+fmt(hi-S.run)+'.'}
+
+// исследования
+const rbox=$('research');
+rbox.innerHTML=RES.map((r,i)=>`<div class="row" data-r="${i}"><div class="inf"><b>${r.n}</b><span></span></div><button class="buy"></button></div>`).join('');
+rbox.addEventListener('click',e=>{const b=e.target.closest('.buy');if(!b)return;
+  const i=+b.parentNode.dataset.r,l=resLv(i),R=RES[i];
+  if(l>=R.max||(S.rp||0)<R.cost(l))return;
+  S.rp-=R.cost(l);if(!S.res)S.res=[];S.res[i]=l+1;sfx.buy();toast('Исследование: '+R.n+', уровень '+(l+1));render()});
+function renderRes(){
+  $('resh').textContent='🔬 Исследования (очков: '+(S.rp||0)+')';
+  [...rbox.children].forEach((row,i)=>{const R=RES[i],l=resLv(i),b=row.querySelector('.buy');
+    row.querySelector('span').textContent='Ур. '+l+'/'+R.max+': '+R.d(l)+(l<R.max?' → '+R.d(l+1):'');
+    if(l>=R.max){b.textContent='Макс';b.disabled=true}else{const c=R.cost(l);b.textContent=c+' очк.';b.disabled=(S.rp||0)<c}})}
+// достижения
+function checkAch(){if(!S.ach)S.ach=[];ACH.forEach((a,i)=>{if(!S.ach.includes(i)&&a.f(S)){S.ach.push(i);sfx.rank();toast('Достижение: '+a.e+' '+a.n+' (+3% к доходу)')}})}
+let lastAch=-1;
+function renderAch(){const n=(S.ach||[]).length;if(n===lastAch)return;lastAch=n;
+  $('achs').textContent='🏆 Достижения: '+n+'/'+ACH.length+' (+'+n*3+'% к доходу)';
+  $('achl').innerHTML=ACH.map((a,i)=>`<div class="achr${(S.ach||[]).includes(i)?'':' lock'}"><span style="font-size:22px">${a.e}</span><div>${a.n}<small>${a.d}</small></div></div>`).join('')}
+
+// список улучшений
+const list=$('list');
+list.innerHTML='<div class="row" data-i="k"><div class="inf"><b>Кирка</b><span></span></div><button class="buy"></button></div>'+
+W.map((w,i)=>'<div class="row" data-i="'+i+'"><div class="inf"><b>'+w.n+'</b><span></span></div><button class="buy"></button></div>').join('');
+list.addEventListener('click',e=>{const b=e.target.closest('.buy');if(!b)return;const i=b.parentNode.dataset.i;
+  if(i==='k'){const c=kCost();if(S.coins>=c){S.coins-=c;S.k++;sfx.buy();S.buys=(S.buys||0)+1;flyCoins(b)}}
+  else{const c=wCost(+i);if(S.coins>=c){S.coins-=c;S.w[+i]++;sfx.buy();S.buys=(S.buys||0)+1;flyCoins(b)}}
+  render()});
+
+// клик по породе
+$('rock').addEventListener('click',e=>{
+  const p=clickPow();gain(p);sfx.hit();S.clicks=(S.clicks||0)+1;
+  if(navigator.vibrate)navigator.vibrate(12);
+  const st=$('stage'),r=st.getBoundingClientRect();
+  const x=e.detail===0?r.width/2:e.clientX-r.left, y=e.detail===0?r.height/2:e.clientY-r.top;
+  // частицы-искры
+  for(let pi=0;pi<5;pi++){const sp=document.createElement('span');sp.className='spark';
+    const ang=Math.random()*Math.PI*2,dist=30+Math.random()*40,sz=4+Math.random()*5;
+    sp.style.cssText=`width:${sz}px;height:${sz}px;background:var(--gold);left:${x}px;top:${y}px;--dx:${Math.cos(ang)*dist}px;--dy:${Math.sin(ang)*dist}px;animation-duration:${.35+Math.random()*.25}s`;
+    st.appendChild(sp);setTimeout(()=>sp.remove(),600)}
+  // шанс артефакта (0.5%)
+  if(Math.random()<.005&&(S.arts||[]).length<ARTS.length){
+    const pool=ARTS.map((_,i)=>i).filter(i=>!(S.arts||[]).includes(i));
+    if(pool.length){const ai=pool[Math.floor(Math.random()*pool.length)];
+      if(!S.arts)S.arts=[];S.arts.push(ai);ARTS[ai].apply(S);
+      const a=document.createElement('span');a.className='art';a.textContent=ARTS[ai].e;
+      a.style.left=(x-14)+'px';a.style.top=(y-50)+'px';st.appendChild(a);setTimeout(()=>a.remove(),900);
+      sfx.rank();toast('Артефакт: '+ARTS[ai].e+' '+ARTS[ai].n+' — '+ARTS[ai].tip)}
+  }
+  const f=document.createElement('span');f.className='fl';f.textContent='+'+fmt(p);
+  f.style.left=(x-14)+'px';f.style.top=(y-24)+'px';st.appendChild(f);setTimeout(()=>f.remove(),800);
+  render()});
+
+// реклама за бонус (заглушка)
+let adBusy=false;
+function showRewardedAd(done){
+  /* Для Yandex Games заменить на: ysdk.adv.showRewardedVideo({callbacks:{onRewarded:done}}) */
+  adBusy=true;render();setTimeout(()=>{adBusy=false;done()},0)}
+$('boost').addEventListener('click',()=>{if(adBusy||S.boost>Date.now())return;showRewardedAd(()=>{S.boost=Date.now()+60000;S.boosts=(S.boosts||0)+1;sfx.boost();toast('Доход ×2 на 60 секунд');render()})});
+
+// новая шахта (престиж), подтверждение вторым нажатием
+let arm=0;
+$('prest').addEventListener('click',()=>{
+  const g=pGain();if(g<1)return;
+  if(!arm){arm=setTimeout(()=>{arm=0;render()},3000);render();return}
+  clearTimeout(arm);arm=0;
+  const keep={};['arts','_artK','_artP','clicks','buys','ach','res','tot','maxD','boosts','quests','qday','chest'].forEach(k=>{keep[k]=S[k]});
+  const nug=S.nug+g,rp=(S.rp||0)+g,pr=(S.pr||0)+1;
+  S=fresh();Object.keys(keep).forEach(k=>{if(keep[k]!==undefined)S[k]=keep[k]});
+  S.nug=nug;S.rp=rp;S.pr=pr;S.coins=startCoins();sfx.rank();toast('Новая шахта! Ранг: '+RK[Math.min(pr,RK.length)-1].n);render();save()});
+
+function render(){
+  $('coins').textContent=fmt(S.coins);
+  $('ps').textContent=fmt(ps())+' в секунду'+(S.nug?', самородков: '+S.nug:'');
+  const d=dOf(S.run);let s=ST[0];for(const x of ST)if(d>=x.d)s=x;
+  $('depth').textContent='Глубина '+d.toLocaleString('ru-RU')+' м';$('sn').textContent=s.n;
+  document.documentElement.style.setProperty('--rock',s.c);$('sw').style.background=s.c;
+  const rows=list.children;
+  {const r=rows[0],c=kCost();r.querySelector('span').textContent='Уровень '+S.k+', +'+fmt(clickPow())+' за клик';
+   const b=r.querySelector('.buy');b.textContent=fmt(c);b.disabled=S.coins<c}
+  // прогресс-бары на кнопках
+  [...list.querySelectorAll('.row')].forEach(r=>{
+    if(!r.querySelector('.bp')){const bp=document.createElement('div');bp.className='bp';r.appendChild(bp)}
+    const b=r.querySelector('.buy'),bp=r.querySelector('.bp');
+    const cost=parseFloat(b.textContent.replace(',','.'))||1;
+    bp.style.width=Math.min(100,S.coins/cost*100)+'%'});
+  W.forEach((w,i)=>{const r=rows[i+1],c=wCost(i);
+    r.querySelector('span').textContent='Куплено: '+S.w[i]+', по '+fmt(w.r*mult())+'/с';
+    const b=r.querySelector('.buy');b.textContent=fmt(c);b.disabled=S.coins<c});
+  const bo=$('boost'),left=Math.ceil((S.boost-Date.now())/1000);
+  if(left>0){bo.classList.add('on');bo.innerHTML='Бонус ×2 активен<small>ещё '+left+' с</small>';bo.disabled=true}
+  else{bo.classList.remove('on');bo.innerHTML='Доход ×2 на 60 с<small>бесплатный бонус</small>';bo.disabled=adBusy}
+  // событие
+  const ev=$('evcard');
+  if(S.ev&&Date.now()<S.ev.end){const e=EVTS[S.ev.i],left=Math.ceil((S.ev.end-Date.now())/1000);
+    ev.classList.add('on');$('et').textContent=e.n;$('el').textContent=e.d+' — ещё '+left+' с'}
+  else ev.classList.remove('on');
+  // задания
+  initQuests();
+  const qw=$('quests');qw.innerHTML='';
+  S.quests.forEach(q=>{const cur2=Math.max(0,(S[q.k]||0)-q.base),pct=Math.min(100,cur2/q.need*100);
+    const d=document.createElement('div');d.className='qcard'+(q.done?' done':'');
+    d.innerHTML=`<div class="qt">${q.done?'✅ ':''}${q.n}</div><div class="qb"><b style="width:${pct}%"></b></div><div class="ql">${q.done?'Выполнено!':fmt(Math.min(cur2,q.need))+' / '+fmt(q.need)+' · Награда: '+fmt(q.rew)+' монет'}</div>`;
+    if(!q.done&&cur2>=q.need){q.done=true;S.coins+=q.rew;sfx.rank();toast('Задание выполнено! +'+fmt(q.rew)+' монет');save()}
+    qw.appendChild(d)});
+  // артефакты
+  const ac2=$('artcol');ac2.innerHTML='';
+  (S.arts||[]).forEach(i=>{const sp=document.createElement('span');sp.className='artbadge';sp.title=ARTS[i].n+': '+ARTS[i].tip;sp.textContent=ARTS[i].e;ac2.appendChild(sp)});
+  $('arttip').textContent=(S.arts&&S.arts.length)?'Найдено: '+S.arts.length+'/'+ARTS.length+'. Каждый клик: 0,5% шанс.':'Каждый клик по породе: 0,5% шанс найти артефакт.';
+  const cur=Math.min(S.pr,RK.length);
+  $('rh').textContent='Ранг: '+(cur?RK[cur-1].n:'Новичок')+(S.pr?' (обновлений шахты: '+S.pr+')':'');
+  [...$('ranks').children].forEach((c,i)=>{c.classList.toggle('got',S.pr>i);c.classList.toggle('cur',cur===i+1)});
+  $('tsnd').className='act'+(snd?' on':'');$('tsnd').textContent='Звук: '+(snd?'вкл':'выкл');
+  $('tmus').className='act'+(musOn?' on':'');$('tmus').textContent='Музыка: '+(musOn?'вкл':'выкл');
+  const p=$('prest'),g=pGain();p.disabled=g<1;
+  p.innerHTML=arm?'Нажми ещё раз<small>прогресс сбросится</small>':'Новая шахта<small>'+(g>=1?'ранг '+RK[Math.min(S.pr,RK.length-1)].n+', +'+g*5+'% дохода':'откроется на 1 млн')+'</small>';prestInfo(g,p);renderRes();renderAch()}
+
+function maybeEvent(){
+  if(S.ev&&Date.now()<S.ev.end)return;
+  if(Math.random()<.0008){const i=Math.floor(Math.random()*EVTS.length);
+    S.ev={i,end:Date.now()+EVTS[i].dur};toast(EVTS[i].n+': '+EVTS[i].d)}}
+function tick(){const n=Date.now();let dt=Math.max(0,(n-S.t)/1000);S.t=n;if(dt>cap())dt=cap();maybeEvent();checkAch();S.maxD=Math.max(S.maxD||0,dOf(S.run));
+  const g=ps()*dt;gain(g);if(dt>60&&g>0)toast('Пока тебя не было: +'+fmt(g));render()}
+
+tick();setInterval(tick,250);setInterval(save,5000);
+addEventListener('pagehide',save);document.addEventListener('visibilitychange',()=>{if(document.hidden){save();if(AC)AC.suspend()}else{tick();if(AC)AC.resume()}});
+</script>
+</body>
+</html>
