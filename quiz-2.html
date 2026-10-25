@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Викторина для команды — играть онлайн с коллегами</title>
+<meta name="description" content="Бесплатная онлайн-викторина для компании: создай комнату, отправь ссылку коллегам и отвечайте на вопросы на скорость. Играют 2–20 человек, регистрация не нужна.">
+<meta name="robots" content="index, follow">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9510884043494446" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js" crossorigin="anonymous" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js';document.head.appendChild(s)"></script>
+<style>
+:root{--bg:#e6ebf1;--card:#fff;--ink:#1d2430;--mute:#5d6878;--line:#d3d9e2;--acc:#0f8a68;--accInk:#fff;--gold:#a96d05}
+@media (prefers-color-scheme:dark){:root{--bg:#161a23;--card:#212735;--ink:#e8ecf3;--mute:#9aa5b6;--line:#303849;--acc:#3dd6a8;--accInk:#0b2a21;--gold:#f0b429}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
+a{color:var(--acc)}
+#app{max-width:640px;margin:0 auto;padding:12px 14px 40px}
+.back2{display:inline-block;font-size:14px;font-weight:600;color:var(--acc);text-decoration:none}
+h1{font-size:24px;margin:4px 0 12px}
+h2{font-size:18px;margin:0 0 8px}
+[hidden]{display:none!important}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:12px}
+.card p{margin:0 0 10px;color:var(--mute);font-size:15px;line-height:1.5}
+input,select{width:100%;font:inherit;font-size:17px;padding:12px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);margin:6px 0 10px}
+input.code{text-transform:uppercase;letter-spacing:4px;text-align:center;font-weight:700}
+.btn{display:block;width:100%;border:0;background:var(--acc);color:var(--accInk);font:inherit;font-weight:700;font-size:17px;border-radius:12px;padding:13px;cursor:pointer}
+.btn.ghost{background:var(--card);color:var(--ink);border:1.5px solid var(--line)}
+.btn:disabled{opacity:.45;cursor:default}
+.row2{display:flex;gap:8px;margin-top:8px}.row2 .btn{flex:1}
+.msg{min-height:22px;color:var(--gold);font-weight:600;font-size:15px;margin:2px 2px 10px}
+.big{font-size:44px;font-weight:800;letter-spacing:8px;text-align:center;margin:4px 0}
+.hint{background:rgba(240,180,41,.15);border:1.5px solid var(--gold);border-radius:12px;padding:8px 12px;font-size:14px;line-height:1.45;color:var(--ink);margin:0 0 10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px}
+.chip{background:var(--bg);border:1.5px solid var(--line);border-radius:999px;padding:6px 12px;font-weight:600;font-size:15px}
+.chip.off{opacity:.45}
+.top{display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:14px;color:var(--mute);margin-bottom:8px}
+.tbar{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin-bottom:10px}
+.tbar b{display:block;height:100%;width:100%;background:var(--acc);transition:width .1s linear}
+.qt{font-size:21px;font-weight:700;line-height:1.35;margin:6px 0 14px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{border:0;border-radius:14px;padding:14px 10px;min-height:72px;font:inherit;font-weight:700;font-size:16px;color:#fff;cursor:pointer;text-align:left;display:flex;gap:8px;align-items:center}
+.opt:disabled{cursor:default}
+.o0{background:#d13438}.o1{background:#2563eb}.o2{background:#b45309}.o3{background:#15803d}
+.opt.dim{opacity:.35}.opt.ok{outline:4px solid #2fd17b;outline-offset:2px}.opt.pick{outline:4px solid var(--ink);outline-offset:2px}
+.wait{text-align:center;color:var(--mute);font-weight:600;margin:14px 0}
+.bar2{height:8px;background:rgba(255,255,255,.35);border-radius:4px;margin-top:4px;width:100%}
+.board{list-style:none;padding:0;margin:0}
+.board li{display:flex;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px solid var(--line);font-size:16px}
+.board li:last-child{border:0}
+.board .pos{width:26px;font-weight:800;color:var(--mute)}
+.board .nm{flex:1;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.board .dl{color:var(--acc);font-weight:700;font-size:14px}
+.board .sc{font-weight:800}
+.board li.me{background:rgba(61,214,168,.12);border-radius:8px}
+.ans{font-size:28px;font-weight:800;text-align:center;margin:6px 0 4px}
+.podium{display:flex;justify-content:center;align-items:flex-end;gap:10px;margin:10px 0 16px;font-weight:700;text-align:center}
+.podium div{flex:1;border-radius:12px 12px 0 0;padding:10px 4px;background:var(--bg);border:1.5px solid var(--line)}
+.podium .p1{min-height:130px;background:rgba(240,180,41,.18)}.podium .p2{min-height:100px}.podium .p3{min-height:80px}
+.podium span{display:block;font-size:30px}.podium small{display:block;color:var(--mute);font-weight:600}
+.info{margin-top:26px;border-top:1px solid var(--line);padding-top:4px}
+.info h2{font-size:19px;margin:22px 0 8px}.info p,.info li{font-size:15px;line-height:1.65}.info ul,.info ol{padding-left:22px}
+.foot{margin-top:28px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--mute);text-align:center;line-height:2}
+.foot a{margin:0 6px;font-weight:600;text-decoration:none}
+</style>
+</head>
+<body>
+<div id="app">
+  <a class="back2" href="index.html">← Все игры</a>
+  <h1>Викторина для команды</h1>
+  <div class="msg" id="msg" role="status"></div>
+
+  <section id="s-menu" class="scr">
+    <div class="card"><h2>Как тебя зовут?</h2><input id="name" maxlength="16" placeholder="Например, Алия" autocomplete="nickname"></div>
+    <div class="card"><h2>Создать комнату</h2><p>Ты станешь ведущим: получишь код и ссылку, которую можно отправить коллегам в чат.</p><button class="btn" id="mk">Создать комнату</button></div>
+    <div class="card"><h2>Войти в комнату</h2><p>Введи код, который прислал ведущий.</p><input id="code" class="code" maxlength="8" placeholder="КОД" autocapitalize="characters" autocomplete="off"><button class="btn ghost" id="jn">Войти</button></div>
+  </section>
+
+  <section id="s-lobby" class="scr" hidden>
+    <div class="card">
+      <p style="text-align:center;margin:0">Код комнаты</p><div class="big" id="lcode"></div>
+      <div class="row2"><button class="btn ghost" id="cp">Скопировать ссылку</button><button class="btn ghost" id="sh" hidden>Поделиться</button></div>
+    </div>
+    <div class="card"><h2>Игроки (<span id="lcnt">0</span>)</h2><div class="chips" id="lpl"></div>
+      <p class="hint" id="hh" hidden>⚠️ Ведущий: не сворачивай браузер и не блокируй экран, пока идёт игра, иначе у остальных перестанут работать ответы.</p>
+      <div id="hostctl" hidden><label for="tp">Тема вопросов</label><select id="tp"></select><label for="nq">Количество вопросов</label><select id="nq"><option value="5">5 (быстро)</option><option value="10" selected>10</option><option value="15">15</option></select><button class="btn" id="go">Начать игру</button></div>
+      <div class="wait" id="lwait" hidden>Ждём, пока ведущий начнёт игру…</div>
+    </div>
+    <button class="btn ghost" id="lv1">Выйти</button>
+  </section>
+
+  <section id="s-q" class="scr" hidden>
+    <div class="top"><span id="qn"></span><span id="qsec"></span></div>
+    <div class="tbar"><b id="qbar"></b></div>
+    <div class="card"><div class="qt" id="qtxt"></div><div id="qin"></div><div class="wait" id="qwait" hidden></div></div>
+  </section>
+
+  <section id="s-rev" class="scr" hidden>
+    <div class="top"><span id="rn"></span><span id="rme"></span></div>
+    <div class="card"><div class="qt" id="rtxt"></div><div id="rbody"></div></div>
+    <div class="card"><h2>Счёт</h2><ol class="board" id="rboard"></ol></div>
+    <button class="btn" id="nx" hidden>Дальше</button>
+    <div class="wait" id="rwait" hidden></div>
+  </section>
+
+  <section id="s-end" class="scr" hidden>
+    <div class="card"><h2 style="text-align:center">Игра окончена</h2><div class="podium" id="pod"></div><ol class="board" id="eboard"></ol></div>
+    <button class="btn" id="again" hidden>Играть ещё раз</button>
+    <div class="wait" id="ewait" hidden>Ждём ведущего…</div>
+    <button class="btn ghost" id="lv2" style="margin-top:10px">Выйти из комнаты</button>
+  </section>
+
+  <section class="info" id="info">
+    <h2>О викторине</h2>
+    <p>Это онлайн-викторина для небольшой компании: коллег, друзей или одноклассников. Один человек создаёт комнату, остальные заходят по коду или ссылке и отвечают на одни и те же вопросы. В базе больше 270 вопросов по десяти темам: наука, география, история, Казахстан, техника, животные, еда, спорт, культура и логика. Чем быстрее правильный ответ, тем больше очков. Игра рассчитана на 5–15 минут, так что её удобно запускать в перерыве.</p>
+    <h2>Как играть</h2>
+    <ol>
+      <li>Введи имя и нажми «Создать комнату». Появится код из четырёх символов и ссылка.</li>
+      <li>Отправь ссылку коллегам. Они откроют её на телефоне или компьютере, введут имя и сразу попадут в комнату.</li>
+      <li>Когда все собрались, ведущий выбирает число вопросов и начинает игру.</li>
+      <li>На каждый вопрос даётся 15 секунд. В вопросах «угадай число» побеждает тот, кто ответил ближе всех.</li>
+      <li>После каждого вопроса показывается правильный ответ и таблица очков. В конце награждают тройку лучших.</li>
+    </ol>
+    <h2>Советы</h2>
+    <ul>
+      <li>Лучше всего играть 3–10 человек, но комната вмещает и больше.</li>
+      <li>Ведущий тоже играет, но должен оставаться на странице: если он выйдет, комната закроется.</li>
+      <li>Если подключиться не получается, попробуйте одну Wi-Fi сеть или мобильный интернет: некоторые корпоративные сети блокируют прямые соединения.</li>
+    </ul>
+    <h2>Частые вопросы</h2>
+    <p><b>Нужна ли регистрация?</b> Нет. Достаточно написать имя.</p>
+    <p><b>Где хранятся данные?</b> Мы не храним ответы на своём сервере: игроки соединяются напрямую друг с другом через публичный сервис PeerJS, а имя запоминается только в твоём браузере. Подробнее в <a href="privacy.html">политике конфиденциальности</a>.</p>
+  </section>
+  <footer class="foot"><a href="index.html">Все игры</a><a href="orda.html">Орда</a><a href="mine.html">Шахта</a><a href="spot.html">Найди отличия</a><a href="about.html">О проекте</a><a href="guide.html">Руководство</a><a href="privacy.html">Политика конфиденциальности</a><a href="mailto:nurzatsaiabekov@gmail.com">Контакты</a><br>© 2026 Игротека</footer>
+</div>
+<script src="quiz-data.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const PREF='igroteka-',ALPH='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+// По умолчанию PeerJS использует свои бесплатные серверы (STUN и TURN). Если в вашей сети соединение не проходит,
+// добавьте свой TURN-сервер в этот список, например: {urls:'turn:адрес:порт',username:'логин',credential:'пароль'}
+const EXTRA_ICE=[];
+const DEFAULT_ICE=[{urls:'stun:stun.l.google.com:19302'},{urls:['turn:eu-0.turn.peerjs.com:3478','turn:us-0.turn.peerjs.com:3478'],username:'peerjs',credential:'peerjsp'}];
+const mkPeer=id=>new Peer(id,EXTRA_ICE.length?{debug:0,config:{iceServers:DEFAULT_ICE.concat(EXTRA_ICE),sdpSemantics:'unified-plan'}}:{debug:0});
+const CATS={'Наука':'🔬','География':'🌍','История':'🏛️','Казахстан':'🇰🇿','Техника':'💻','Животные':'🐾','Еда':'🍜','Спорт':'⚽','Культура':'🎭','Логика':'🧠'};
+const genCode=()=>Array.from({length:4},()=>ALPH[Math.floor(Math.random()*ALPH.length)]).join('');
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+// код, набранный на русской раскладке (клавиши те же), превращаем в латиницу
+const LAYOUT={'й':'q','ц':'w','у':'e','к':'r','е':'t','н':'y','г':'u','ш':'i','щ':'o','з':'p','ф':'a','ы':'s','в':'d','а':'f','п':'g','р':'h','о':'j','л':'k','д':'l','я':'z','ч':'x','с':'c','м':'v','и':'b','т':'n','ь':'m'};
+const normCode=s=>String(s||'').toLowerCase().replace(/[а-яё]/g,ch=>LAYOUT[ch]||'').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,4);
+let mode=null,peer=null,hconn=null,hostId='',myId=null,myName='',G=null,S=null,recvAt=0,picked=null,pending=null,builtQ=-1,lastQ=-1;
+let busy=false,leaving=false,retry=0,retryT=0,lastPong=0,lastTry=0,wl=null;
+
+// ---------- звук ----------
+let AC=null;
+function beep(f,t,d,type,v){try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();
+  const o=AC.createOscillator(),g=AC.createGain(),s=AC.currentTime+t;o.type=type||'sine';o.frequency.value=f;
+  g.gain.setValueAtTime(.0001,s);g.gain.exponentialRampToValueAtTime(v||.15,s+.02);g.gain.exponentialRampToValueAtTime(.0001,s+d);
+  o.connect(g);g.connect(AC.destination);o.start(s);o.stop(s+d+.05)}catch(e){}}
+
+// ---------- интерфейс ----------
+function show(id){document.querySelectorAll('.scr').forEach(e=>e.hidden=e.id!=='s-'+id);$('info').hidden=id!=='menu'}
+function msg(t){$('msg').textContent=t||''}
+function setBusy(b){busy=b;$('mk').disabled=b;$('jn').disabled=b}
+function netErr(e){const t=e&&e.type;
+  return t==='peer-unavailable'?'Комната не найдена. Проверь код и попроси ведущего не сворачивать страницу.':
+  (t==='network'||t==='server-error'||t==='socket-error'||t==='socket-closed')?'Нет связи с сервером. Проверь интернет и попробуй ещё раз.':
+  t==='webrtc'?'Не удалось установить соединение. Возможно, сеть блокирует прямые подключения.':'Ошибка соединения'+(t?' ('+t+')':'')}
+function getName(){const n=$('name').value.trim().slice(0,16);if(!n){msg('Сначала введи своё имя');$('name').focus();return ''}
+  try{localStorage.setItem('quiz_name',n)}catch(e){}return n}
+async function wake(){try{if('wakeLock' in navigator&&!wl){wl=await navigator.wakeLock.request('screen');wl.addEventListener('release',()=>{wl=null})}}catch(e){}}
+function leave(text){leaving=true;clearTimeout(retryT);retryT=0;if(G){clearTimeout(G.timer);clearTimeout(G.auto)}
+  const c=hconn,p=peer;mode=null;peer=null;hconn=null;G=null;S=null;myId=null;pending=null;builtQ=-1;lastQ=-1;picked=null;retry=0;
+  try{c&&c.close()}catch(e){}try{p&&p.destroy()}catch(e){}
+  try{wl&&wl.release()}catch(e){}wl=null;setBusy(false);show('menu');msg(text||'');leaving=false}
+
+// ---------- ведущий ----------
+function startHost(tries){
+  if(typeof Peer==='undefined')return msg('Не загрузился сетевой модуль. Проверь интернет и обнови страницу.');
+  if(typeof RTCPeerConnection==='undefined')return msg('Этот браузер не поддерживает онлайн-игру. Открой страницу в Chrome или Safari.');
+  if(busy&&!tries)return;setBusy(true);msg('Создаём комнату…');
+  const code=genCode();let p;
+  try{p=mkPeer(PREF+code)}catch(e){setBusy(false);return msg('Не удалось создать комнату')}
+  p.on('open',()=>{
+    if(G&&peer===p){msg('');return}                       // повторное открытие после восстановления связи с сервером
+    peer=p;mode='host';myId='h';msg('');setBusy(false);
+    G={code,ph:'lobby',players:new Map(),n:10,qs:[],qi:-1,nid:1,timer:0,auto:0,rev:null,dur:15,endAt:0};
+    G.players.set('h',{id:'h',name:myName,score:0,on:true,ans:null,conn:null});
+    p.on('connection',c=>{c.on('data',m=>hostData(c,m));c.on('close',()=>hostLeft(c));c.on('error',()=>{})});
+    hostBroadcast();show('lobby');wake()});
+  p.on('disconnected',()=>{if(peer===p&&!p.destroyed){msg('⏳ Потеряна связь с сервером, восстанавливаем…');reconnectLoop(p)}});
+  p.on('error',err=>{
+    if(err.type==='unavailable-id'&&tries<4){try{p.destroy()}catch(e){}return startHost(tries+1)}
+    if(mode==='host'&&peer===p){msg('⚠️ '+netErr(err));return}
+    setBusy(false);msg(netErr(err))})}
+function reconnectLoop(p){if(p.destroyed||peer!==p)return;if(!p.disconnected){msg('');return}
+  try{p.reconnect()}catch(e){}setTimeout(()=>reconnectLoop(p),2500)}
+function hostData(c,m){
+  if(!m||typeof m!=='object'||!G)return;
+  if(m.t==='ping'){try{c.send({t:'pong'})}catch(e){}return}
+  if(m.t==='join'){
+    const name=String(m.name||'').trim().slice(0,16)||'Игрок';let p=null;
+    if(m.rid&&m.rid!=='h'&&G.players.has(m.rid))p=G.players.get(m.rid);                                   // тот же игрок вернулся
+    if(!p)for(const q of G.players.values()){if(q.id!=='h'&&!q.on&&q.name.toLowerCase()===name.toLowerCase()){p=q;break}}
+    if(p){if(p.conn&&p.conn!==c){try{p.conn.close()}catch(e){}}p.conn=c;p.on=true;c._pid=p.id}
+    else{if(c._pid)return;let nm=name,k=2;while([...G.players.values()].some(q=>q.name.toLowerCase()===nm.toLowerCase()))nm=name+' '+k++;
+      const id='p'+(G.nid++);p={id,name:nm,score:0,on:true,ans:null,conn:c};G.players.set(id,p);c._pid=id}
+    try{c.send({t:'w',id:p.id})}catch(e){}hostBroadcast();return}
+  const p=c._pid&&G.players.get(c._pid);if(!p)return;if(p.conn!==c){p.conn=c;p.on=true}
+  if(m.t==='ans')submit(p.id,m.q,m.v)}
+function hostLeft(c){if(!G)return;const p=G.players.get(c._pid);if(!p||p.conn!==c)return;p.on=false;p.conn=null;
+  if(G.ph==='lobby')setTimeout(()=>{const q=G&&G.players.get(p.id);if(q&&!q.on&&G.ph==='lobby'){G.players.delete(p.id);hostBroadcast()}},8000);
+  hostBroadcast();if(G.ph==='q')checkAll()}
+function snap(){const cur=G.qs[G.qi];
+  return{t:'s',ph:G.ph,code:G.code,qi:G.qi,n:G.qs.length||G.n,dur:G.dur,
+    q:(G.ph==='q'||G.ph==='rev')&&cur?{k:cur.k,t:cur.t,o:cur.o,u:cur.u,c:cur.c}:null,
+    rem:G.ph==='q'?Math.max(0,G.endAt-Date.now()):0,
+    players:[...G.players.values()].map(p=>({id:p.id,name:p.name,score:p.score,on:p.on,ans:p.ans!==null})),
+    rev:G.ph==='rev'?G.rev:null}}
+function hostBroadcast(){const s=snap();G.players.forEach(p=>{if(p.conn&&p.conn.open!==false){try{p.conn.send(s)}catch(e){}}});onState(s)}
+function buildQs(n,topic){
+  let seen={mc:[],num:[]};try{seen=Object.assign(seen,JSON.parse(localStorage.getItem('quiz_seen2')||'{}'))}catch(e){}
+  const pool=kind=>QZ[kind].map((_,i)=>i);
+  const take=(kind,cnt)=>{if(cnt<=0)return[];seen[kind]=seen[kind]||[];
+    const inTopic=pool(kind).filter(i=>!topic||QZ[kind][i][0]===topic);
+    let fresh=inTopic.filter(i=>!seen[kind].includes(i));
+    if(fresh.length<cnt){seen[kind]=seen[kind].filter(i=>!inTopic.includes(i));fresh=inTopic.slice()}
+    let pick=shuffle(fresh).slice(0,cnt);
+    if(pick.length<cnt){const rest=shuffle(pool(kind).filter(i=>!pick.includes(i)));pick=pick.concat(rest.slice(0,cnt-pick.length))}  // в теме мало вопросов: добираем из других тем
+    seen[kind]=seen[kind].concat(pick);return pick.map(i=>({kind,i}))};
+  const numAvail=QZ.num.filter(x=>!topic||x[0]===topic).length;
+  const nn=topic&&!numAvail?0:Math.min(Math.round(n*.2),Math.max(numAvail,1)),nm=n-nn;
+  const picks=shuffle([...take('mc',nm),...take('num',nn)]);
+  try{localStorage.setItem('quiz_seen2',JSON.stringify(seen))}catch(e){}
+  return picks.map(({kind,i})=>{
+    if(kind==='num'){const [c,q,a,u]=QZ.num[i];return{k:'num',t:q,a,u,c}}
+    const [c,q,o,k]=QZ.mc[i],idx=shuffle(o.map((_,j)=>j));return{k:'mc',t:q,o:idx.map(j=>o[j]),c:c,r:idx.indexOf(k)}})}
+function startGame(){
+  G.qs=buildQs(+$('nq').value,$('tp').value);G.qi=-1;G.players.forEach(p=>{p.score=0;p.ans=null});nextQ()}
+function nextQ(){
+  if(!G)return;clearTimeout(G.auto);G.qi++;
+  if(G.qi>=G.qs.length){G.ph='end';return hostBroadcast()}
+  const q=G.qs[G.qi];G.ph='q';G.dur=q.k==='num'?25:15;G.endAt=Date.now()+G.dur*1000;
+  G.players.forEach(p=>{p.ans=null});clearTimeout(G.timer);G.timer=setTimeout(endQ,G.dur*1000+300);hostBroadcast()}
+function submit(pid,qi,v){
+  if(!G||G.ph!=='q'||qi!==G.qi)return;const p=G.players.get(pid),q=G.qs[G.qi];if(!p||p.ans!==null)return;
+  if(q.k==='mc'){v=Math.floor(Number(v));if(!(v>=0&&v<=3))return}else{v=Number(v);if(!isFinite(v))return}
+  p.ans={v,at:Date.now()};
+  if(!checkAll())hostBroadcast()}
+function checkAll(){const on=[...G.players.values()].filter(p=>p.on);if(on.length&&on.every(p=>p.ans!==null)){endQ();return true}return false}
+function endQ(){
+  if(!G||G.ph!=='q')return;clearTimeout(G.timer);const q=G.qs[G.qi],d={},a={},cnt=[0,0,0,0];
+  const ans=[...G.players.values()].filter(p=>p.ans!==null);
+  if(q.k==='mc'){ans.forEach(p=>{a[p.id]=p.ans.v;cnt[p.ans.v]++;
+    if(p.ans.v===q.r){const left=Math.max(0,G.endAt-p.ans.at)/(G.dur*1000);d[p.id]=500+Math.round(500*Math.min(1,left))}else d[p.id]=0})}
+  else{const diffs=[...new Set(ans.map(p=>Math.abs(p.ans.v-q.a)))].sort((x,y)=>x-y),pts=[1000,700,450,250];
+    ans.forEach(p=>{a[p.id]=p.ans.v;const r=diffs.indexOf(Math.abs(p.ans.v-q.a));d[p.id]=r<pts.length?pts[r]:100})}
+  G.players.forEach(p=>{p.score+=d[p.id]||0});
+  G.rev={c:q.k==='mc'?q.r:q.a,d,a,cnt};G.ph='rev';
+  G.auto=setTimeout(nextQ,q.k==='num'?11000:8000);hostBroadcast()}
+function playAgain(){clearTimeout(G.auto);G.ph='lobby';G.qi=-1;G.qs=[];G.players.forEach(p=>{p.score=0;p.ans=null});
+  [...G.players.values()].forEach(p=>{if(!p.on)G.players.delete(p.id)});hostBroadcast()}
+
+// ---------- игрок ----------
+function startClient(code){
+  if(busy)return;
+  if(typeof Peer==='undefined')return msg('Не загрузился сетевой модуль. Проверь интернет и обнови страницу.');
+  if(typeof RTCPeerConnection==='undefined')return msg('Этот браузер не поддерживает онлайн-игру. Открой страницу в Chrome или Safari.');
+  setBusy(true);msg('Подключаемся…');hostId=PREF+code;retry=0;leaving=false;let p;
+  try{p=mkPeer()}catch(e){setBusy(false);return msg('Не удалось подключиться')}
+  peer=p;mode='client';
+  p.on('open',()=>{if(peer===p&&!hconn)connectHost(p)});
+  p.on('disconnected',()=>{try{if(peer===p&&!p.destroyed)p.reconnect()}catch(e){}});
+  p.on('error',e=>{if(peer!==p||leaving)return;
+    if(e.type==='peer-unavailable'){lost('unavailable');return}
+    if(!S)leave(netErr(e));else msg('⚠️ '+netErr(e))})}
+function connectHost(p){
+  if(leaving||peer!==p||mode!=='client')return;
+  if(hconn&&hconn.open!==true&&Date.now()-lastTry<2000)return;lastTry=Date.now();
+  if(hconn){const o=hconn;hconn=null;try{o.close()}catch(e){}}
+  const c=p.connect(hostId,{reliable:true});hconn=c;let opened=false;
+  const to=setTimeout(()=>{if(!opened&&hconn===c)lost('timeout')},10000);
+  c.on('open',()=>{opened=true;clearTimeout(to);lastPong=Date.now();try{c.send({t:'join',name:myName,rid:myId})}catch(e){}});
+  c.on('data',m=>{if(hconn!==c||!m)return;lastPong=Date.now();
+    if(m.t==='w'){myId=m.id}else if(m.t==='s'){retry=0;setBusy(false);msg('');onState(m)}});
+  c.on('close',()=>{if(hconn===c)lost('close')});c.on('error',()=>{if(hconn===c)lost('error')})}
+function lost(why){
+  if(leaving||mode!=='client'||retryT)return;
+  const limit=S?30:5;
+  if(retry++>=limit){return leave(S?'Не удалось восстановить связь с ведущим. Войди в комнату заново.':'Не удалось подключиться к комнате. Проверь код. Попроси ведущего не сворачивать страницу, либо попробуйте другую сеть или мобильный интернет.')}
+  msg(S?'⏳ Связь потеряна, переподключаемся… ('+retry+')':'Ищем комнату… ('+retry+')');
+  retryT=setTimeout(()=>{retryT=0;if(leaving||mode!=='client')return;try{if(peer&&peer.disconnected)peer.reconnect()}catch(e){}connectHost(peer)},1500)}
+function sendAns(v){
+  if(!S||S.ph!=='q'||picked!==null)return;const me=S.players.find(p=>p.id===myId);if(me&&me.ans)return;
+  picked=v;pending={q:S.qi,v,tries:0};pushAns();render()}
+function pushAns(){if(!pending)return;
+  if(mode==='host')submit('h',pending.q,pending.v);
+  else if(hconn&&hconn.open!==false){try{hconn.send({t:'ans',q:pending.q,v:pending.v})}catch(e){}}}
+
+// ---------- отображение ----------
+function onState(s){S=s;recvAt=performance.now();
+  if(s.ph==='q'&&s.qi!==lastQ){lastQ=s.qi;picked=null;pending=null;beep(660,0,.12,'triangle',.2)}
+  if(pending){const me=s.players.find(p=>p.id===myId);if(s.ph!=='q'||s.qi!==pending.q||(me&&me.ans))pending=null}
+  if(s.ph==='rev'){const d=s.rev&&s.rev.d[myId];if(d>0)beep(880,0,.2,'triangle',.25);else beep(180,0,.25,'sawtooth',.15)}
+  if(s.ph==='end')[523,659,784,1047].forEach((f,i)=>beep(f,i*.1,.25,'triangle',.25));
+  render()}
+const sorted=pl=>[...pl].sort((a,b)=>b.score-a.score);
+function board(el,pl,d){el.innerHTML=sorted(pl).map((p,i)=>`<li class="${p.id===myId?'me':''}"><span class="pos">${i+1}</span><span class="nm">${p.id==='h'?'👑 ':''}${esc(p.name)}${p.on?'':' (нет связи)'}</span>${d&&d[p.id]?`<span class="dl">+${d[p.id]}</span>`:''}<span class="sc">${p.score}</span></li>`).join('')}
+function render(){
+  if(!S)return;const me=S.players.find(p=>p.id===myId),host=mode==='host';
+  if(S.ph==='lobby'){show('lobby');$('lcode').textContent=S.code;$('lcnt').textContent=S.players.length;
+    $('lpl').innerHTML=S.players.map(p=>`<span class="chip${p.on?'':' off'}">${p.id==='h'?'👑 ':''}${esc(p.name)}</span>`).join('');
+    $('hostctl').hidden=!host;$('hh').hidden=!host;$('lwait').hidden=host;builtQ=-1;return}
+  if(S.ph==='q'){show('q');const q=S.q,answered=S.players.filter(p=>p.ans).length,total=S.players.filter(p=>p.on).length;
+    $('qn').textContent='Вопрос '+(S.qi+1)+' из '+S.n+(q.c?' · '+(CATS[q.c]||'')+' '+q.c:'');
+    if(builtQ!==S.qi){builtQ=S.qi;$('qtxt').textContent=q.t;
+      if(q.k==='mc')$('qin').innerHTML='<div class="opts">'+q.o.map((o,i)=>`<button class="opt o${i}" data-i="${i}"><span>${'▲●■◆'[i]}</span><span>${esc(o)}</span></button>`).join('')+'</div>';
+      else $('qin').innerHTML=`<input id="numin" type="number" inputmode="decimal" step="any" placeholder="Твой ответ${q.u?' ('+esc(q.u)+')':''}"><button class="btn" id="numgo">Ответить</button>`}
+    const confirmed=!!(me&&me.ans),mine=confirmed||picked!==null;
+    $('qin').querySelectorAll('.opt').forEach(b=>{b.disabled=mine;b.classList.toggle('dim',mine&&+b.dataset.i!==picked);b.classList.toggle('pick',mine&&+b.dataset.i===picked)});
+    const ni=$('numin');if(ni){ni.disabled=mine;$('numgo').disabled=mine}
+    $('qwait').hidden=!mine;$('qwait').textContent=confirmed?'Ответ принят. Отвечено: '+answered+' из '+total:'Отправляем ответ…';return}
+  if(S.ph==='rev'){show('rev');const q=S.q,r=S.rev;$('rn').textContent='Вопрос '+(S.qi+1)+' из '+S.n;
+    const got=r.d[myId]||0;$('rme').textContent=got?'+'+got+' очков':'0 очков';$('rtxt').textContent=q.t;
+    if(q.k==='mc'){const tot=Math.max(1,r.cnt.reduce((a,b)=>a+b,0));
+      $('rbody').innerHTML='<div class="opts">'+q.o.map((o,i)=>`<div class="opt o${i}${i===r.c?' ok':' dim'}"><div style="flex:1"><span>${'▲●■◆'[i]} ${esc(o)}</span><div class="bar2"><div style="height:100%;border-radius:4px;background:#fff;width:${Math.round(r.cnt[i]/tot*100)}%"></div></div></div><b>${r.cnt[i]}</b></div>`).join('')+'</div>'}
+    else{const list=S.players.filter(p=>r.a[p.id]!==undefined).sort((a,b)=>Math.abs(r.a[a.id]-r.c)-Math.abs(r.a[b.id]-r.c));
+      $('rbody').innerHTML=`<div class="ans">${r.c.toLocaleString('ru-RU')} ${esc(q.u||'')}</div><ol class="board">${list.map(p=>`<li class="${p.id===myId?'me':''}"><span class="nm">${esc(p.name)}</span><span class="sc">${r.a[p.id].toLocaleString('ru-RU')}</span><span class="dl">+${r.d[p.id]}</span></li>`).join('')||'<li>Никто не ответил</li>'}</ol>`}
+    board($('rboard'),S.players,r.d);$('nx').hidden=!host;$('rwait').hidden=host;$('rwait').textContent='Следующий вопрос появится автоматически';
+    $('nx').textContent=S.qi+1>=S.n?'К итогам':'Дальше';return}
+  if(S.ph==='end'){show('end');const t=sorted(S.players);
+    $('pod').innerHTML=[1,0,2].filter(i=>t[i]).map(i=>`<div class="p${i+1}"><span>${['🥇','🥈','🥉'][i]}</span>${esc(t[i].name)}<small>${t[i].score}</small></div>`).join('');
+    board($('eboard'),S.players,null);$('again').hidden=!host;$('ewait').hidden=host}}
+setInterval(()=>{if(!S||S.ph!=='q')return;const left=Math.max(0,S.rem-(performance.now()-recvAt));
+  $('qbar').style.width=(left/(S.dur*1000)*100)+'%';$('qsec').textContent=Math.ceil(left/1000)+' с';
+  $('qbar').style.background=left<4000?'#d13438':'';
+  if(left<=0&&mode==='host'&&G&&G.ph==='q'&&Date.now()>G.endAt+400)endQ()},100);
+// повторная отправка ответа, пока ведущий его не подтвердит
+setInterval(()=>{if(!pending||!S||S.ph!=='q')return;if(pending.tries++<8)pushAns()},1200);
+// проверка связи: игрок раз в 4 секунды стучится к ведущему
+setInterval(()=>{if(mode!=='client'||!hconn||!S||retryT)return;
+  if(hconn.open!==false){try{hconn.send({t:'ping'})}catch(e){}}
+  if(Date.now()-lastPong>14000){msg('⚠️ Нет ответа от ведущего. Возможно, он свернул страницу. Пробуем снова…');lastPong=Date.now();try{hconn.close()}catch(e){}if(!retryT&&hconn)lost('silent')}},4000);
+document.addEventListener('visibilitychange',()=>{if(document.hidden||!mode)return;wake();
+  if(mode==='host'){if(peer&&peer.disconnected)reconnectLoop(peer);if(G&&G.ph==='q'&&Date.now()>G.endAt+400)endQ()}
+  else if(mode==='client'&&hconn&&hconn.open===false&&!retryT)lost('visible')});
+
+// ---------- кнопки ----------
+(()=>{const tp=$('tp'),cats=[...new Set(QZ.mc.map(x=>x[0]))];
+  tp.innerHTML='<option value="">Все темы</option>'+cats.map(c=>`<option value="${esc(c)}">${CATS[c]||''} ${esc(c)}</option>`).join('')})();
+$('mk').onclick=()=>{myName=getName();if(myName)startHost(0)};
+$('jn').onclick=()=>{myName=getName();if(!myName)return;const c=normCode($('code').value);$('code').value=c;if(c.length<4)return msg('Введи код комнаты из 4 символов');startClient(c)};
+$('code').addEventListener('input',()=>{const v=normCode($('code').value);if(v!==$('code').value)$('code').value=v});
+$('go').onclick=()=>{if(mode==='host'&&G.ph==='lobby')startGame()};
+$('nx').onclick=()=>{if(mode==='host'&&G.ph==='rev')nextQ()};
+$('again').onclick=()=>{if(mode==='host')playAgain()};
+$('lv1').onclick=$('lv2').onclick=()=>leave('');
+$('qin').addEventListener('click',e=>{const b=e.target.closest('.opt');if(b){sendAns(+b.dataset.i);return}
+  if(e.target.id==='numgo'){const v=$('numin').value;if(v!==''&&isFinite(Number(v)))sendAns(Number(v))}});
+$('qin').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='numin'){const v=e.target.value;if(v!==''&&isFinite(Number(v)))sendAns(Number(v))}});
+function link(){return location.origin+location.pathname+'?room='+(S?S.code:'')}
+$('cp').onclick=async()=>{try{await navigator.clipboard.writeText(link());msg('Ссылка скопирована. Отправь её коллегам.')}catch(e){prompt('Скопируй ссылку:',link())}};
+if(navigator.share){$('sh').hidden=false;$('sh').onclick=()=>navigator.share({title:'Викторина',text:'Заходи в нашу викторину! Код комнаты: '+S.code,url:link()}).catch(()=>{})}
+try{$('name').value=localStorage.getItem('quiz_name')||''}catch(e){}
+const room=normCode(new URLSearchParams(location.search).get('room'));
+if(room){$('code').value=room;msg('Тебя пригласили в комнату '+room+'. Введи имя и нажми «Войти».')}
+addEventListener('pagehide',()=>{try{peer&&peer.destroy()}catch(e){}});
+show('menu');
+</script>
+</body>
+</html>
