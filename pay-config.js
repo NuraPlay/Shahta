@@ -6,7 +6,7 @@ window.PAYCFG={
   halyk:{card:'4003035103259805',name:'Nurzat S'},    // Halyk Bank: номер карты и имя, например '4400 1234 5678 9012' и 'Айдос К.'
   tg:'Nurekenge',                      // Telegram без @, например 'aidos_games'
   wa:'',                      // WhatsApp, только цифры, например '77011234567' (можно оставить пустым)
-  pub:'',                     // публичный ключ: создаётся на donate.html#admin (см. инструкцию)
+  pub:'BGB8SSAA5eUf2hfG74-cIF4G0ZJKAJefCivhAjQEA70DfvIFg2trzpCbHFpHOT1InjaVXAXo5JIa7b74u1MdKr0',                     // публичный ключ: создаётся на donate.html#admin (см. инструкцию)
   rate:3,                     // для любой суммы: 1 ₸ = 3 золота
   packs:[                     // [сумма в ₸, золото, значок]
     [500,1500,'☕'],
