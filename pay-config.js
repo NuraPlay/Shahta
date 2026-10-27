@@ -1,3 +1,4 @@
+{"jwk":{"crv":"P-256","d":"tMpkQsIHaQDKaK1rHcYdNLLr43QHkIR4bos1J7mPMnY","ext":true,"key_ops":["sign"],"kty":"EC","x":"YHxJIADl5R_aF8bvj5wgXgbRkkoAl58KK-ECNAQDvQM","y":"fvIFg2trzpCbHFpHOT1InjaVXAXo5JIa7b74u1MdKr0"},"pub":"BGB8SSAA5eUf2hfG74-cIF4G0ZJKAJefCivhAjQEA70DfvIFg2trzpCbHFpHOT1InjaVXAXo5JIa7b74u1MdKr0"}
 /* Настройки донатов. Заполни своими данными и загрузи на сайт рядом с donate.html.
    Пока pub и хотя бы один банк пустые, на странице донатов будет надпись «скоро». */
 window.PAYCFG={
