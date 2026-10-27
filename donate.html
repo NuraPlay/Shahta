@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Поддержать автора — Игротека</title>
+<meta name="description" content="Поддержать «Игротеку»: переведи любую сумму через Kaspi или Halyk Bank и получи золото для игры «Орда».">
+<meta name="robots" content="index, follow">
+<style>
+:root{--bg:#e6ebf1;--card:#fff;--ink:#1d2430;--mute:#5d6878;--line:#d3d9e2;--acc:#0b7a5b;--pk:#d6336c;--pkInk:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#161a23;--card:#212735;--ink:#e8ecf3;--mute:#9aa5b6;--line:#303849;--acc:#3dd6a8;--pk:#ff6b9a;--pkInk:#2a0a16}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6;-webkit-tap-highlight-color:transparent}
+main{max-width:640px;margin:0 auto;padding:14px 14px 40px}a{color:var(--acc)}[hidden]{display:none!important}
+h1{font-size:28px;margin:6px 0 4px;letter-spacing:-.02em}h2{font-size:19px;margin:0 0 8px}.sub{color:var(--mute);margin:0 0 14px}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:12px}.card p{margin:6px 0}
+.id{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0}.id b{font:800 28px ui-monospace,Menlo,Consolas,monospace;letter-spacing:.08em}
+button,.lnk{font:inherit;font-weight:700;border:0;border-radius:12px;padding:11px 14px;cursor:pointer;background:var(--pk);color:var(--pkInk);text-decoration:none;display:inline-block;text-align:center}
+button.g{background:var(--card);color:var(--ink);border:1.5px solid var(--line)}
+.pks{display:grid;grid-template-columns:1fr 1fr;gap:8px}.pk{display:flex;flex-direction:column;gap:2px;text-align:left;background:var(--card);color:var(--ink);border:1.5px solid var(--line)}
+.pk.on{border-color:var(--pk);box-shadow:0 0 0 1.5px var(--pk)}.pk span{font-weight:600;color:var(--mute);font-size:14px}.pk i{color:var(--pk);font-style:normal}
+.pm{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}.pm div{flex:1}.pm small{display:block;color:var(--mute)}
+input,textarea{font:inherit;width:100%;padding:11px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);margin:6px 0}
+.ok{color:var(--acc);font-weight:700}.er{color:#d64545;font-weight:700}.mt{color:var(--mute);font-size:14px}
+ul{padding-left:20px;margin:6px 0}li{margin:4px 0}
+.foot{margin-top:24px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--mute);text-align:center;line-height:2}.foot a{margin:0 6px;font-weight:600;text-decoration:none}
+</style>
+</head>
+<body>
+<main>
+<a href="index.html" style="font-weight:600;text-decoration:none">← Все игры</a>
+<h1>💖 Поддержать автора</h1>
+<p class="sub">«Игротека» бесплатная и делается одним человеком. Если игры нравятся, поддержи проект переводом. В благодарность получишь золото 💰 для «Орды»: его можно потратить на героев, карты и улучшения в лагере.</p>
+
+<div class="card" id="soon" hidden><h2>Донаты скоро откроются</h2><p>Мы настраиваем приём переводов. Загляни сюда чуть позже, а пока можно просто играть. Спасибо, что ты с нами!</p></div>
+
+<div id="pay" hidden>
+  <div class="card"><h2>1. Выбери сумму</h2><div class="pks" id="pks"></div><p id="sum"></p></div>
+  <div id="man"><div class="card"><h2>2. Переведи через банк</h2><div id="pms"></div><p class="mt">Если в переводе есть поле комментария, напиши туда свой ID из шага 3.</p></div>
+  <div class="card"><h2>3. Отправь автору чек и ID</h2>
+    <div class="id"><b id="pid"></b><button class="g" id="cpid">Копировать ID</button></div>
+    <p class="mt">ID привязан к этому браузеру: код будет работать только здесь. Не очищай данные сайта, пока не активируешь код.</p>
+    <p id="ct"></p></div>
+  <div class="card"><h2>4. Введи код от автора</h2>
+    <p class="mt">Автор проверит перевод и пришлёт код, обычно в течение дня.</p>
+    <textarea id="code" rows="3" placeholder="ORDA...." autocomplete="off" spellcheck="false"></textarea>
+    <button id="rd">Получить золото</button><p id="rm"></p></div></div>
+  <div class="card" id="auto" hidden><h2>2. Оплати через Kaspi</h2><p class="mt">Откроется страница оплаты Kaspi. После оплаты вернись на этот сайт: золото начислится само.</p><button id="kp">💳 Оплатить через Kaspi</button> <button class="g" id="kc" hidden>Проверить оплату</button><p id="as"></p></div>
+</div>
+
+<div class="card" id="adm" hidden><h2>🔧 Панель автора</h2><div id="abox"></div></div>
+
+<div class="card">
+  <h2>Важно знать</h2>
+  <ul>
+    <li>Донат добровольный. Золото 💰 — виртуальная валюта игры «Орда», у неё нет денежной стоимости, её нельзя вывести или обменять.</li>
+    <li>Возврат не предусмотрен после начисления золота. Если что-то пошло не так, напиши автору, и мы разберёмся.</li>
+    <li>Нам не нужны данные твоей карты, CVV и коды из СМС. Переводи только по реквизитам с этой страницы.</li>
+    <li>Если тебе нет 18 лет, спроси разрешения у родителей.</li>
+    <li>Золото начисляется один раз по каждому коду. Прогресс хранится в твоём браузере.</li>
+  </ul>
+</div>
+<footer class="foot"><a href="index.html">Все игры</a><a href="orda.html">Орда</a><a href="about.html">О проекте</a><a href="privacy.html">Политика конфиденциальности</a><br>© 2026 Игротека</footer>
+</main>
+<script src="pay-config.js"></script>
+<script>
+'use strict';
+const C=window.PAYCFG||{},$=id=>document.getElementById(id),K='igroteka_pay',AK='igroteka_admin';
+let P={};try{P=JSON.parse(localStorage.getItem(K)||'{}')||{}}catch(e){}
+if(!P.id){const A='23456789ABCDEFGHJKMNPQRSTUVWXYZ',r=crypto.getRandomValues(new Uint8Array(8));let s='';for(const b of r)s+=A[b%A.length];P.id=s.slice(0,4)+'-'+s.slice(4)}
+P.used=P.used||[];P.ord=(P.ord||[]).filter(o=>Date.now()-o.ts<1728e5);P.pend=P.pend||0;P.sum=P.sum||0;
+const sv=()=>{try{localStorage.setItem(K,JSON.stringify(P))}catch(e){}};sv();
+const fmt=n=>Number(n).toLocaleString('ru-RU'),enc=new TextEncoder();
+const b64=u=>btoa(String.fromCharCode(...u)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+const unb=s=>Uint8Array.from(atob(s.replace(/-/g,'+').replace(/_/g,'/')),c=>c.charCodeAt(0));
+const ALG={name:'ECDSA',namedCurve:'P-256'},SG={name:'ECDSA',hash:'SHA-256'},mb=(id,g,n)=>enc.encode(id+'|'+g+'|'+n);
+const cp=t=>{(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).catch(()=>prompt('Скопируй:',t))};
+let pk=C.packs||[];const rate=C.rate||3,ks=C.kaspi||{},hs=C.halyk||{};let sel=Math.min(1,pk.length-1);
+const AUTO=!!C.auto,ready=AUTO||!!(C.pub&&pk.length&&(ks.phone||hs.card));$('pay').hidden=!ready;$('soon').hidden=ready;$('man').hidden=AUTO;$('auto').hidden=!AUTO;
+const note=()=>'Привет! Донат на Игротеку. Мой ID: '+P.id+'. Сумма: '+fmt(pk[sel][0])+' ₸. Чек прикладываю.';
+const pm=(t,how,v,n)=>'<div class="pm"><div><b>'+t+'</b><small>'+how+'</small><b>'+v+'</b>'+(n?'<small>Получатель: '+n+'</small>':'')+'</div><button class="g" data-c="'+v+'">Копировать</button></div>';
+function draw(){if(!ready)return;
+  $('pks').innerHTML=pk.map((p,k)=>{const b=Math.round((p[1]/(p[0]*rate)-1)*100);return '<button class="pk'+(k===sel?' on':'')+'" data-k="'+k+'"><b>'+p[2]+' '+fmt(p[0])+' ₸</b><span>💰 '+fmt(p[1])+(b>0?' <i>+'+b+'%</i>':'')+'</span></button>'}).join('');
+  const p=pk[sel];$('sum').innerHTML=(AUTO?'Оплатишь <b>':'Переведи <b>')+fmt(p[0])+' ₸</b>, получишь <b>💰 '+fmt(p[1])+'</b>.'+(AUTO?'':' Подойдёт и любая другая сумма: 1 ₸ = '+rate+' 💰, просто напиши, сколько перевёл.');
+  $('pms').innerHTML=(ks.phone?pm('Kaspi.kz','Переводы → по номеру телефона',ks.phone,ks.name):'')+(hs.card?pm('Halyk Bank','Переводы → на карту',hs.card,hs.name):'');
+  $('pid').textContent=P.id;
+  $('ct').innerHTML=(C.tg?'<a class="lnk" href="https://t.me/'+C.tg+'" target="_blank" rel="noopener">Telegram</a> ':'')+(C.wa?'<a class="lnk" href="https://wa.me/'+C.wa+'?text='+encodeURIComponent(note())+'" target="_blank" rel="noopener">WhatsApp</a> ':'')+'<button class="g" data-n="1">Копировать сообщение</button>'}
+$('rd').onclick=async()=>{const m=$('rm');m.className='';m.textContent='Проверяю…';
+  try{const u=unb($('code').value.trim().replace(/\s+/g,'').replace(/^ORDA\./i,''));if(u.length!==72)throw 0;const dv=new DataView(u.buffer),g=dv.getUint32(0),n=dv.getUint32(4);
+    const key=await crypto.subtle.importKey('raw',unb(C.pub),ALG,false,['verify']);
+    if(!await crypto.subtle.verify(SG,key,u.slice(8),mb(P.id,g,n))){m.className='er';m.textContent='Код не подходит. Он выдаётся под твой ID '+P.id+' и должен быть скопирован целиком.';return}
+    if(P.used.includes(n)){m.className='er';m.textContent='Этот код уже активирован.';return}
+    P.used.push(n);P.pend+=g;P.sum+=g;sv();m.className='ok';m.innerHTML='Спасибо! 💖 Начислено 💰 '+fmt(g)+'. Открой <a href="orda.html">«Орду»</a>: золото уже ждёт в лагере.';$('code').value=''
+  }catch(x){m.className='er';m.textContent='Не удалось прочитать код. Скопируй его целиком, вместе с «ORDA.» в начале.'}};
+// --- панель автора: donate.html#admin
+const A=()=>{try{return JSON.parse(localStorage.getItem(AK))}catch(e){return null}};
+function admin(){if(location.hash!=='#admin')return;$('adm').hidden=false;const a=A(),b=$('abox');
+  if(!a){b.innerHTML='<p>Ключей ещё нет. Создай их один раз на этом устройстве: ими подписываются коды.</p><button id="gk">Создать ключи</button><p class="mt">Или вставь резервную копию:</p><textarea id="imp" rows="3"></textarea><button class="g" id="ik">Загрузить копию</button>';return}
+  b.innerHTML='<p>Публичный ключ: '+(C.pub===a.pub?'<span class="ok">совпадает с pay-config.js ✅</span>':'<span class="er">не совпадает. Вставь его в pay-config.js (поле pub) и загрузи файл на сайт</span>')+'</p><textarea readonly rows="3">'+a.pub+'</textarea><button class="g" data-c="'+a.pub+'">Копировать ключ</button><h2 style="margin-top:14px">Новый код</h2><input id="aid" placeholder="ID игрока, например K7P2-9QXM" autocapitalize="characters"><input id="at" type="number" placeholder="Сумма в ₸"><input id="ag" type="number" placeholder="Золото 💰"><button id="mk">Создать код</button><textarea readonly rows="4" id="ao"></textarea><button class="g" id="cc">Копировать код</button><details style="margin-top:12px"><summary>Резервная копия секретного ключа</summary><p class="er">Никому не показывай. Без неё после очистки браузера придётся создавать ключи заново.</p><textarea readonly rows="4">'+JSON.stringify(a)+'</textarea></details>'}
+async function gen(){const kp=await crypto.subtle.generateKey(ALG,true,['sign','verify']);localStorage.setItem(AK,JSON.stringify({jwk:await crypto.subtle.exportKey('jwk',kp.privateKey),pub:b64(new Uint8Array(await crypto.subtle.exportKey('raw',kp.publicKey)))}));admin()}
+async function mk(id,g){const key=await crypto.subtle.importKey('jwk',A().jwk,ALG,false,['sign']),n=crypto.getRandomValues(new Uint32Array(1))[0],o=new Uint8Array(72),dv=new DataView(o.buffer);dv.setUint32(0,g);dv.setUint32(4,n);o.set(new Uint8Array(await crypto.subtle.sign(SG,key,mb(id,g,n))),8);return 'ORDA.'+b64(o)}
+document.addEventListener('click',async e=>{const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.k){sel=+b.dataset.k;draw()}else if(b.dataset.c)cp(b.dataset.c);else if(b.dataset.n)cp(note());else if(b.id==='cpid')cp(P.id);
+  else if(b.id==='gk'){try{await gen()}catch(x){alert('Не вышло создать ключи. Открой страницу по https.')}}
+  else if(b.id==='ik'){try{const a=JSON.parse($('imp').value);if(!a.jwk||!a.pub)throw 0;localStorage.setItem(AK,JSON.stringify(a));admin()}catch(x){alert('Это не похоже на резервную копию')}}
+  else if(b.id==='mk'){const id=$('aid').value.trim().toUpperCase(),g=Math.floor(+$('ag').value);if(!/^[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(id)||!(g>0)){alert('Проверь ID игрока и количество золота');return}$('ao').value=await mk(id,g)}
+  else if(b.id==='cc')cp($('ao').value)});
+document.addEventListener('input',e=>{if(e.target.id==='at'){const v=+e.target.value;$('ag').value=v>0?(pk.find(p=>p[0]===v)||[0,Math.round(v*rate)])[1]:''}});
+// --- автоматическая оплата через Kaspi (включается в pay-config.js: auto:true)
+if(AUTO){
+  fetch('/api/donate?a=packs').then(r=>r.json()).then(j=>{pk=j.packs.map(p=>[p.tenge,p.gold,p.icon]);sel=Math.min(1,pk.length-1);draw()}).catch(()=>{$('as').className='er';$('as').textContent='Не удалось загрузить суммы. Обнови страницу.'});
+  $('kp').onclick=async()=>{const b=$('kp'),s=$('as');b.disabled=true;s.className='';s.textContent='Создаю платёж…';
+    try{const r=await fetch('/api/donate?a=order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pid:P.id,k:sel})}),j=await r.json();if(!r.ok||!j.url)throw 0;P.ord.push({id:j.id,t:j.t,ts:Date.now()});sv();location.href=j.url}
+    catch(x){b.disabled=false;s.className='er';s.textContent='Не удалось создать платёж. Попробуй ещё раз чуть позже.'}};
+  const watch=()=>{if(!P.ord.length)return;const s=$('as');s.className='';s.textContent='Проверяю оплату…';$('kc').hidden=false;let n=0;
+    const tick=async()=>{for(const o of [...P.ord]){try{const j=await(await fetch('/api/donate?a=status&id='+o.id+'&t='+o.t)).json();
+        if(j.status==='paid'){if(!P.used.includes(o.id)){P.used.push(o.id);P.pend+=j.gold;P.sum+=j.gold}P.ord=P.ord.filter(x=>x.id!==o.id);sv();s.className='ok';s.innerHTML='Спасибо! 💖 Начислено 💰 '+fmt(j.gold)+'. Открой <a href="orda.html">«Орду»</a>: золото уже ждёт в лагере.'}
+        else if(j.status==='gone'){P.ord=P.ord.filter(x=>x.id!==o.id);sv()}}catch(e){}}
+      if(!P.ord.length){if(s.className!=='ok')s.textContent='';return}
+      if(n++<60)setTimeout(tick,4000);else s.textContent='Оплата пока не найдена. Если ты уже заплатил, нажми «Проверить оплату» через минуту.'};tick()};
+  $('kc').onclick=watch;watch()}
+addEventListener('hashchange',admin);draw();admin();
+</script>
+</body>
+</html>
