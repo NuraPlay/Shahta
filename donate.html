@@ -81,7 +81,7 @@ const pm=(t,how,v,n)=>'<div class="pm"><div><b>'+t+'</b><small>'+how+'</small><b
 function draw(){if(!ready)return;
   $('pks').innerHTML=pk.map((p,k)=>{const b=Math.round((p[1]/(p[0]*rate)-1)*100);return '<button class="pk'+(k===sel?' on':'')+'" data-k="'+k+'"><b>'+p[2]+' '+fmt(p[0])+' ₸</b><span>💰 '+fmt(p[1])+(b>0?' <i>+'+b+'%</i>':'')+'</span></button>'}).join('');
   const p=pk[sel];$('sum').innerHTML=(AUTO?'Оплатишь <b>':'Переведи <b>')+fmt(p[0])+' ₸</b>, получишь <b>💰 '+fmt(p[1])+'</b>.'+(AUTO?'':' Подойдёт и любая другая сумма: 1 ₸ = '+rate+' 💰, просто напиши, сколько перевёл.');
-  $('pms').innerHTML=(ks.phone?pm('Kaspi.kz','Переводы → по номеру телефона',ks.phone,ks.name):'')+(hs.card?pm('Halyk Bank','Переводы → на карту',hs.card,hs.name):'');
+  $('pms').innerHTML=(ks.phone?pm('Kaspi.kz','Переводы → на карту',ks.phone,ks.name):'')+(hs.card?pm('Halyk Bank','Переводы → на карту',hs.card,hs.name):'');
   $('pid').textContent=P.id;
   $('ct').innerHTML=(C.tg?'<a class="lnk" href="https://t.me/'+C.tg+'" target="_blank" rel="noopener">Telegram</a> ':'')+(C.wa?'<a class="lnk" href="https://wa.me/'+C.wa+'?text='+encodeURIComponent(note())+'" target="_blank" rel="noopener">WhatsApp</a> ':'')+'<button class="g" data-n="1">Копировать сообщение</button>'}
 $('rd').onclick=async()=>{const m=$('rm');m.className='';m.textContent='Проверяю…';
