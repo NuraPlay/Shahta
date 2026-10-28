@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Найди отличия — бесплатная игра онлайн</title>
+<meta name="description" content="Найди отличия между двумя картинками: бесплатная онлайн-головоломка с бесконечными уровнями. Играй в браузере без регистрации.">
+<meta name="robots" content="index, follow">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9510884043494446" crossorigin="anonymous"></script>
+<style>
+:root{--bg:#e6ebf1;--card:#fff;--ink:#1d2430;--mute:#5d6878;--line:#d3d9e2;--acc:#0f8a68;--accInk:#fff;--gold:#a96d05}
+@media (prefers-color-scheme:dark){:root{--bg:#161a23;--card:#212735;--ink:#e8ecf3;--mute:#9aa5b6;--line:#303849;--acc:#3dd6a8;--accInk:#0b2a21;--gold:#f0b429}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
+a{color:var(--acc)}
+.foot{margin-top:32px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--mute);text-align:center;line-height:2}
+.foot a{margin:0 6px;font-weight:600;text-decoration:none}
+#app{max-width:900px;margin:0 auto;padding:12px 14px 40px}
+.back2{display:inline-block;font-size:14px;font-weight:600;color:var(--acc);text-decoration:none}
+h1{font-size:22px;margin:4px 0 10px}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:8px 10px;margin-bottom:10px;font-weight:600}
+.lv{display:flex;align-items:center;gap:6px}
+.ib{border:0;background:var(--line);color:var(--ink);border-radius:8px;width:32px;height:32px;font-size:16px;cursor:pointer}
+.ib:disabled{opacity:.35;cursor:default}
+#hearts{color:#e5484d;letter-spacing:2px;font-size:18px}
+.sm{font-size:13px;color:var(--mute);font-weight:400}
+.boards{display:grid;gap:10px;grid-template-columns:1fr}
+@media (min-width:680px){.boards{grid-template-columns:1fr 1fr}}
+.board{position:relative;border-radius:14px;overflow:hidden;border:2px solid var(--line);background:#8ed1fc;touch-action:manipulation}
+.board canvas{display:block;width:100%;height:auto;cursor:pointer}
+.ring{position:absolute;width:var(--w);aspect-ratio:1/1;transform:translate(-50%,-50%);border-radius:50%;border:4px solid #2fd17b;box-shadow:0 0 0 2px rgba(255,255,255,.7);pointer-events:none}
+.ring.hint{border-color:#ffd23f;animation:pl .7s ease-in-out infinite alternate}
+@keyframes pl{to{transform:translate(-50%,-50%) scale(1.25)}}
+.xm{position:absolute;transform:translate(-50%,-50%);color:#e5484d;font-weight:800;font-size:30px;pointer-events:none;text-shadow:0 0 3px #fff;animation:xf .6s forwards}
+@keyframes xf{to{opacity:0;transform:translate(-50%,-80%)}}
+.shake{animation:sh .3s}
+@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.acts{display:flex;gap:8px;margin:10px 0}
+.btn{flex:1;border:0;background:var(--acc);color:var(--accInk);font:inherit;font-weight:700;border-radius:12px;padding:12px;cursor:pointer}
+.btn.ghost{background:var(--card);color:var(--ink);border:1.5px solid var(--line)}
+.btn:disabled{opacity:.45;cursor:default}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:20px;z-index:20}
+.ov[hidden]{display:none}
+.cm{background:var(--card);border-radius:18px;padding:22px;max-width:340px;width:100%;text-align:center}
+.cm h2{margin:0 0 6px;font-size:22px}.cm p{margin:0 0 8px;color:var(--mute)}
+#ovs{font-size:34px;margin:6px 0 12px}.cm .btn{width:100%;margin-top:8px;flex:none}
+.info{margin-top:28px;border-top:1px solid var(--line);padding-top:4px}
+.info h2{font-size:19px;margin:22px 0 8px}.info p,.info li{font-size:15px;line-height:1.65}.info ul,.info ol{padding-left:22px}
+@media (prefers-reduced-motion:reduce){.ring.hint,.xm,.shake{animation:none}}
+</style>
+</head>
+<body>
+<div id="app">
+  <a class="back2" href="index.html">← Все игры</a>
+  <h1>Найди отличия</h1>
+  <div class="bar">
+    <div class="lv"><button class="ib" id="prev" aria-label="Предыдущий уровень">‹</button><span id="lvl"></span><button class="ib" id="next" aria-label="Следующий уровень">›</button></div>
+    <div><span id="hearts"></span> <span class="sm" id="cnt"></span></div>
+    <button class="ib" id="snd" aria-label="Звук">🔊</button>
+  </div>
+  <div class="boards">
+    <div class="board" id="ba"><canvas id="ca" width="800" height="600"></canvas></div>
+    <div class="board" id="bb"><canvas id="cb" width="800" height="600"></canvas></div>
+  </div>
+  <div class="acts"><button class="btn" id="hint"></button><button class="btn ghost" id="redo">Заново</button><button class="btn ghost" id="exch">💠 Обмен</button></div>
+  <section class="info">
+    <h2>Об игре</h2>
+    <p>«Найди отличия» — классическая головоломка на внимательность. Две картинки почти одинаковые, но в одной из них что-то изменилось: другой цвет, пропал или появился предмет, поменялся размер. Найди все отличия и переходи на следующий уровень. Картинки создаются заново для каждого уровня, поэтому игра не заканчивается.</p>
+    <h2>Как играть</h2>
+    <ol>
+      <li>Сравни две картинки и нажми на место, где заметил отличие. Можно нажимать на любую из картинок.</li>
+      <li>Найденное отличие отмечается зелёным кругом.</li>
+      <li>За каждую ошибку теряется сердце. Три ошибки, и уровень придётся начать заново.</li>
+      <li>Кнопка «Подсказка» покажет одно из ненайденных отличий. За каждый пройденный уровень ты получаешь ещё одну подсказку.</li>
+      <li>Три звезды дают за уровень без ошибок.</li>
+    </ol>
+    <h2>Советы</h2>
+    <ul>
+      <li>Смотри на предметы по очереди, а не на всю картинку сразу.</li>
+      <li>Обращай внимание на цвет цветов, домиков и деревьев.</li>
+      <li>Сравнивай размеры: иногда предмет просто чуть больше или меньше.</li>
+      <li>На высоких уровнях отличий больше, а изменения тоньше.</li>
+    </ul>
+  </section>
+  <footer class="foot"><a href="index.html">Все игры</a><a href="orda.html">Орда</a><a href="mine.html">Шахта</a><a href="spot.html">Найди отличия</a><a href="quiz.html">Викторина</a><a href="about.html">О проекте</a><a href="guide.html">Руководство</a><a href="donate.html">Поддержать автора</a><a href="privacy.html">Политика конфиденциальности</a><a href="mailto:YOUR_EMAIL@gmail.com">Контакты</a><br>© 2026 Игротека</footer>
+</div>
+<div class="ov" id="ov" hidden><div class="cm" role="dialog" aria-modal="true"><h2 id="ovt"></h2><p id="ovp"></p><div id="ovs"></div><button class="btn" id="ovb"></button><button class="btn ghost" id="ovb2">Закрыть</button></div></div>
+<script src="wallet.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const KEY='spot_v1';
+let V={cur:1,max:1,stars:{},hints:5,snd:true};
+try{Object.assign(V,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(V))}catch(e){}};
+// звук
+let AC=null;
+function beep(f,t,d,type,v){if(!V.snd)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();
+  const o=AC.createOscillator(),g=AC.createGain(),s=AC.currentTime+t;o.type=type||'sine';o.frequency.value=f;
+  g.gain.setValueAtTime(.0001,s);g.gain.exponentialRampToValueAtTime(v||.15,s+.02);g.gain.exponentialRampToValueAtTime(.0001,s+d);
+  o.connect(g);g.connect(AC.destination);o.start(s);o.stop(s+d+.05)}catch(e){}}
+const sfx={ok(){beep(660,0,.1,'triangle',.25);beep(990,.08,.16,'triangle',.25)},bad(){beep(160,0,.22,'sawtooth',.18)},
+  win(){[523,659,784,1047].forEach((f,i)=>beep(f,i*.1,.25,'triangle',.28))},hint(){beep(880,0,.12,'sine',.2)}};
+// генератор уровней
+function rng(seed){let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const PAL=['#e5484d','#f5a524','#f2d541','#3fb56b','#2ec4b6','#3b82f6','#8b5cf6','#ec6aa6'];
+const TY=['tree','house','cloud','flower','mushroom'];
+const SZ={tree:[40,56],house:[46,60],cloud:[36,50],flower:[24,32],mushroom:[26,34]};
+const D={
+ tree(c,i,s){c.fillStyle='#7a5230';c.fillRect(i.x-s*.08,i.y-s*.5,s*.16,s*.5);c.fillStyle=i.col;c.beginPath();c.arc(i.x,i.y-s*.7,s*.42,0,7);c.fill();c.fillStyle='rgba(255,255,255,.22)';c.beginPath();c.arc(i.x-s*.12,i.y-s*.8,s*.15,0,7);c.fill()},
+ house(c,i,s){c.fillStyle=i.col;c.fillRect(i.x-s*.5,i.y-s*.55,s,s*.55);c.fillStyle='#a8452f';c.beginPath();c.moveTo(i.x-s*.62,i.y-s*.55);c.lineTo(i.x+s*.62,i.y-s*.55);c.lineTo(i.x,i.y-s*1.02);c.fill();c.fillStyle='#6b4a2e';c.fillRect(i.x-s*.1,i.y-s*.3,s*.2,s*.3);c.fillStyle='#bfe3f5';c.fillRect(i.x+s*.2,i.y-s*.42,s*.18,s*.18)},
+ cloud(c,i,s){c.fillStyle='rgba(255,255,255,.96)';[[-.3,0,.22],[0,-.1,.3],[.32,0,.22]].forEach(([a,b,r])=>{c.beginPath();c.arc(i.x+a*s,i.y+b*s,r*s,0,7);c.fill()});c.fillRect(i.x-.3*s,i.y-.02*s,.62*s,.2*s)},
+ flower(c,i,s){c.strokeStyle='#3d8f4f';c.lineWidth=2;c.beginPath();c.moveTo(i.x,i.y);c.lineTo(i.x,i.y-s*.6);c.stroke();c.fillStyle=i.col;for(let k=0;k<5;k++){const a=k*1.2566;c.beginPath();c.arc(i.x+Math.cos(a)*s*.17,i.y-s*.65+Math.sin(a)*s*.17,s*.13,0,7);c.fill()}c.fillStyle='#ffd23f';c.beginPath();c.arc(i.x,i.y-s*.65,s*.1,0,7);c.fill()},
+ mushroom(c,i,s){c.fillStyle='#f1e6d3';c.fillRect(i.x-s*.1,i.y-s*.3,s*.2,s*.3);c.fillStyle=i.col;c.beginPath();c.arc(i.x,i.y-s*.3,s*.4,Math.PI,0);c.fill();c.fillStyle='#fff';[[-.18,-.45],[.05,-.55],[.2,-.4]].forEach(([a,b])=>{c.beginPath();c.arc(i.x+a*s,i.y+b*s,s*.06,0,7);c.fill()})}
+};
+function bounds(i){const s=i.s*i.k,x=i.x,y=i.y;
+  return i.t==='tree'?{cx:x,cy:y-.65*s,r:.55*s}:i.t==='house'?{cx:x,cy:y-.5*s,r:.6*s}:i.t==='cloud'?{cx:x+.05*s,cy:y-.05*s,r:.6*s}:i.t==='flower'?{cx:x,cy:y-.55*s,r:.45*s}:{cx:x,cy:y-.3*s,r:.45*s}}
+function gen(n){
+  const R=rng(n*7919+101),rr=(a,b)=>a+R()*(b-a),pick=a=>a[Math.floor(R()*a.length)];
+  const cnt=Math.min(9+Math.floor(n/2),15);let nd=Math.min(3+Math.floor((n-1)/3),7);
+  const items=[];
+  const mk=t=>{for(let k=0;k<80;k++){const i={t,s:rr(...SZ[t]),k:1,col:pick(PAL),x:rr(36,364),y:t==='cloud'?rr(48,105):rr(205,285)};
+    const b=bounds(i);if(b.cx-b.r<2||b.cx+b.r>398)continue;
+    if(items.every(o=>{const q=bounds(o);return Math.hypot(q.cx-b.cx,q.cy-b.cy)>(q.r+b.r)*.9}))return i}return null};
+  for(let k=0;k<cnt*3&&items.length<cnt;k++){const i=mk(pick(TY));if(i)items.push(i)}
+  const hills=[0,1,2].map(()=>{return{x:rr(0,400),rx:rr(110,190),ry:rr(40,75),c:pick(['#7fc98f','#8fd19e','#6fbf86'])}});
+  const B=items.map(i=>({...i})),diffs=[],used=new Set();
+  const far=b=>diffs.every(d=>Math.hypot(d.cx-b.cx,d.cy-b.cy)>64);
+  for(let k=0;k<400&&diffs.length<nd;k++){
+    const typ=pick(['color','remove','scale','add']);
+    if(typ==='add'){const i=mk(pick(TY));if(!i)continue;const b=bounds(i);if(!far(b))continue;B.push(i);diffs.push({cx:b.cx,cy:b.cy,r:Math.max(b.r,26)});continue}
+    const idx=Math.floor(R()*items.length);if(used.has(idx))continue;
+    const A=items[idx],b=bounds(A);if(!far(b))continue;let r=Math.max(b.r,26);
+    if(typ==='color'){if(A.t==='cloud')continue;let c2;do{c2=pick(PAL)}while(c2===A.col);B[idx].col=c2}
+    else if(typ==='remove')B[idx]=null;
+    else{const f=pick(n<6?[1.5,.62]:n<12?[1.38,.7]:[1.28,.76]);B[idx].k=f;r=Math.max(r,b.r*f)}
+    used.add(idx);diffs.push({cx:b.cx,cy:b.cy,r})}
+  return{A:items,B:B.filter(Boolean),hills,diffs}}
+function draw(cv,items,hills){
+  const c=cv.getContext('2d');c.setTransform(cv.width/400,0,0,cv.height/300,0,0);
+  const g=c.createLinearGradient(0,0,0,200);g.addColorStop(0,'#8ed1fc');g.addColorStop(1,'#d9f0ff');c.fillStyle=g;c.fillRect(0,0,400,300);
+  hills.forEach(h=>{c.fillStyle=h.c;c.beginPath();c.ellipse(h.x,195,h.rx,h.ry,0,Math.PI,2*Math.PI);c.fill()});
+  c.fillStyle='#9bd88a';c.fillRect(0,195,400,105);
+  [...items].sort((a,b)=>a.y-b.y).forEach(i=>D[i.t](c,i,i.s*i.k))}
+// игра
+let L=null;
+function start(n){
+  V.cur=n;save();L={n,...gen(n),found:new Set(),mist:0,hearts:3,over:false};
+  draw($('ca'),L.A,L.hills);draw($('cb'),L.B,L.hills);
+  document.querySelectorAll('.ring,.xm').forEach(e=>e.remove());$('ov').hidden=true;render()}
+function ring(i,cls){const d=L.diffs[i];
+  if(cls==='ok')document.querySelectorAll('.ring.hint[data-i="'+i+'"]').forEach(e=>e.remove());
+  ['ba','bb'].forEach(id=>{const e=document.createElement('div');e.className='ring '+cls;e.dataset.i=i;
+    e.style.cssText='left:'+d.cx/4+'%;top:'+d.cy/3+'%;--w:'+(d.r*2/4)+'%';$(id).appendChild(e)})}
+function tap(e,id){
+  if(L.over)return;
+  const r=$(id).querySelector('canvas').getBoundingClientRect();
+  const x=(e.clientX-r.left)/r.width*400,y=(e.clientY-r.top)/r.height*300;
+  const hit=(d,i)=>Math.hypot(d.cx-x,d.cy-y)<=d.r+8;
+  const di=L.diffs.findIndex((d,i)=>!L.found.has(i)&&hit(d,i));
+  if(di>=0){L.found.add(di);ring(di,'ok');sfx.ok();if(L.found.size===L.diffs.length)win()}
+  else if(!L.diffs.some((d,i)=>L.found.has(i)&&hit(d,i))){
+    L.mist++;L.hearts--;sfx.bad();
+    const m=document.createElement('div');m.className='xm';m.textContent='✕';m.style.left=x/4+'%';m.style.top=y/3+'%';$(id).appendChild(m);setTimeout(()=>m.remove(),600);
+    $(id).classList.add('shake');setTimeout(()=>$(id).classList.remove('shake'),300);
+    if(L.hearts<=0)lose()}
+  render()}
+function ov(t,p,s,b1,f1,b2){$('ovt').textContent=t;$('ovp').textContent=p;$('ovs').textContent=s;$('ovb').textContent=b1;$('ovb').onclick=f1;$('ovb2').onclick=()=>{$('ov').hidden=true};$('ovb2').hidden=!b2;$('ov').hidden=false}
+function win(){
+  L.over=true;const st=L.mist===0?3:L.mist===1?2:1;
+  V.stars[L.n]=Math.max(V.stars[L.n]||0,st);V.max=Math.max(V.max,L.n+1);if(V.hints<9)V.hints++;save();sfx.win();
+  setTimeout(()=>ov('Уровень '+L.n+' пройден!','Ошибок: '+L.mist+'. Ты получил ещё одну подсказку.','⭐'.repeat(st)+'☆'.repeat(3-st),'Следующий уровень',()=>start(L.n+1),true),500)}
+function lose(){L.over=true;setTimeout(()=>ov('Сердца закончились','Не страшно, попробуй этот уровень ещё раз.','💔','Повторить',()=>start(L.n),false),400)}
+function render(){
+  const tot=Object.values(V.stars).reduce((a,b)=>a+b,0);
+  $('lvl').innerHTML='Уровень '+L.n+' <span class="sm">⭐ '+tot+'</span>';
+  $('hearts').textContent='♥'.repeat(L.hearts)+'♡'.repeat(3-L.hearts);
+  $('cnt').textContent='🔍 '+L.found.size+'/'+L.diffs.length;
+  $('prev').disabled=L.n<=1;$('next').disabled=L.n>=V.max;
+  $('hint').textContent=V.hints>0?'Подсказка ('+V.hints+')':'Подсказки закончились';$('hint').disabled=V.hints<=0||L.over;
+  $('snd').textContent=V.snd?'🔊':'🔇'}
+$('ba').addEventListener('click',e=>tap(e,'ba'));$('bb').addEventListener('click',e=>tap(e,'bb'));
+$('prev').onclick=()=>{if(L.n>1)start(L.n-1)};$('next').onclick=()=>{if(L.n<V.max)start(L.n+1)};
+$('redo').onclick=()=>start(L.n);
+if(window.Igro){Igro.game({id:'spot',name:'Найди отличия',icon:'💡',unit:'подсказки',per:()=>3,give:n=>{V.hints+=n;save();render()}});$('exch').onclick=()=>Igro.open('spot')}
+$('snd').onclick=()=>{V.snd=!V.snd;save();render()};
+$('hint').onclick=()=>{
+  if(L.over||V.hints<=0)return;const rest=L.diffs.map((d,i)=>i).filter(i=>!L.found.has(i));if(!rest.length)return;
+  const i=rest[Math.floor(Math.random()*rest.length)];V.hints--;save();ring(i,'hint');sfx.hint();
+  setTimeout(()=>document.querySelectorAll('.ring.hint[data-i="'+i+'"]').forEach(e=>e.remove()),2500);render()};
+start(Math.min(V.cur,V.max));
+</script>
+</body>
+</html>
