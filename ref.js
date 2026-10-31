@@ -1,4 +1,9 @@
-const {redis}=require('../lib/provider');
+// Мини-клиент базы Upstash Redis (REST). Переменные окружения Vercel добавляет сам, когда подключаешь базу к проекту.
+const RU=process.env.UPSTASH_REDIS_REST_URL||process.env.KV_REST_API_URL,RT=process.env.UPSTASH_REDIS_REST_TOKEN||process.env.KV_REST_API_TOKEN;
+async function redis(...cmd){
+  if(!RU||!RT)throw new Error('db not connected');
+  const r=await fetch(RU,{method:'POST',headers:{Authorization:'Bearer '+RT},body:JSON.stringify(cmd.map(String))}),j=await r.json();
+  if(j.error)throw new Error(j.error);return j.result}
 const out=(res,c,o)=>{res.setHeader('Cache-Control','no-store');res.status(c).json(o)};
 const ID=/^[A-Z0-9]{4}-[A-Z0-9]{4}$/,KEY=/^[a-f0-9]{24}$/;
 // Приглашения в «Ферме»: считаем новых игроков, пришедших по ссылке. Награда только игровая, денег здесь нет.
