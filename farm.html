@@ -31,8 +31,13 @@ input{font:inherit;width:100%;padding:10px;border-radius:12px;border:1.5px solid
 .info p,.info li{color:var(--mute)}.info ul{padding-left:20px}
 .foot{margin-top:24px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--mute);text-align:center;line-height:2}.foot a{margin:0 6px;font-weight:600;text-decoration:none}
 </style>
+<meta name="theme-color" content="#f3f5fc" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a0c18" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="site.css">
+<script src="site.js" defer></script>
 </head>
-<body>
+<body class="ig ig-game">
+<noscript><nav style="padding:14px"><a href="index.html">Все игры</a> · <a href="about.html">О проекте</a> · <a href="privacy.html">Политика конфиденциальности</a></nav></noscript>
 <div id="app">
   <div class="top"><h1>🌾 Ферма</h1><button class="g" id="exch" hidden>💠</button></div>
   <div class="top" style="margin-top:6px"><div id="co">🪙 0</div><div id="lv"></div></div>
@@ -54,7 +59,6 @@ input{font:inherit;width:100%;padding:10px;border-radius:12px;border:1.5px solid
     <h2>Приглашения и деньги</h2>
     <p>Друзья по твоей ссылке получают бонус, а ты получаешь игровые монеты за каждого друга, который дорос до 3 уровня. Игра не принимает и не выплачивает реальные деньги: монеты и кристаллы — только игровая валюта.</p>
   </section>
-  <footer class="foot"><a href="index.html">Все игры</a><a href="orda.html">Орда</a><a href="mine.html">Шахта</a><a href="donate.html">Поддержать автора</a><a href="about.html">О проекте</a><a href="privacy.html">Политика конфиденциальности</a><br>© 2026 Игротека</footer>
 </div>
 <div id="toast" role="status"></div>
 <script src="wallet.js"></script>
