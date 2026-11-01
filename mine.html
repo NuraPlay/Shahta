@@ -107,8 +107,13 @@ details.pcard summary{cursor:pointer;font-weight:600;font-size:15px}
 .achr small{display:block;color:var(--mute);font-size:12px}
 @media (prefers-reduced-motion:reduce){.fl,.spark,.fc,.art{animation:none;opacity:0}#rock{transition:none}.act.ready{animation:none}}
 </style>
+<meta name="theme-color" content="#f3f5fc" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a0c18" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="site.css">
+<script src="site.js" defer></script>
 </head>
-<body>
+<body class="ig ig-game">
+<noscript><nav style="padding:14px"><a href="index.html">Все игры</a> · <a href="about.html">О проекте</a> · <a href="privacy.html">Политика конфиденциальности</a></nav></noscript>
 <div id="app">
   <a class="back2" href="index.html">← Все игры</a>
   <h1 class="ttl">Шахта — бесплатная idle-игра</h1>
@@ -179,9 +184,6 @@ details.pcard summary{cursor:pointer;font-weight:600;font-size:15px}
     <details><summary>Как отключить звук или музыку?</summary><p>Кнопки «Звук» и «Музыка» находятся под блоком новой шахты, их можно выключить по отдельности.</p></details>
     <p>Больше советов в <a href="guide.html" style="color:var(--acc)">руководстве для начинающих</a>.</p>
   </section>
-  <footer class="foot">
-    <a href="index.html">Все игры</a><a href="orda.html">Орда</a><a href="about.html">О проекте</a><a href="guide.html">Руководство</a><a href="donate.html">Поддержать автора</a><a href="privacy.html">Политика конфиденциальности</a><a href="mailto: nurzatsaiabekov@gmail.com">Контакты</a><br>© 2026 Шахта
-  </footer>
 </div>
 <div id="toast" role="status"></div>
 <script src="wallet.js"></script>
