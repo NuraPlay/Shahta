@@ -62,8 +62,13 @@ input.code{text-transform:uppercase;letter-spacing:4px;text-align:center;font-we
 .foot{margin-top:28px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--mute);text-align:center;line-height:2}
 .foot a{margin:0 6px;font-weight:600;text-decoration:none}
 </style>
+<meta name="theme-color" content="#f3f5fc" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a0c18" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="site.css">
+<script src="site.js" defer></script>
 </head>
-<body>
+<body class="ig ig-game">
+<noscript><nav style="padding:14px"><a href="index.html">Все игры</a> · <a href="about.html">О проекте</a> · <a href="privacy.html">Политика конфиденциальности</a></nav></noscript>
 <div id="app">
   <a class="back2" href="index.html">← Все игры</a>
   <h1>Викторина для команды</h1>
@@ -130,7 +135,6 @@ input.code{text-transform:uppercase;letter-spacing:4px;text-align:center;font-we
     <p><b>Нужна ли регистрация?</b> Нет. Достаточно написать имя.</p>
     <p><b>Где хранятся данные?</b> Мы не храним ответы на своём сервере: игроки соединяются напрямую друг с другом через публичный сервис PeerJS, а имя запоминается только в твоём браузере. Подробнее в <a href="privacy.html">политике конфиденциальности</a>.</p>
   </section>
-  <footer class="foot"><a href="index.html">Все игры</a><a href="orda.html">Орда</a><a href="mine.html">Шахта</a><a href="spot.html">Найди отличия</a><a href="about.html">О проекте</a><a href="guide.html">Руководство</a><a href="privacy.html">Политика конфиденциальности</a><a href="mailto:nurzatsaiabekov@gmail.com">Контакты</a><br>© 2026 Игротека</footer>
 </div>
 <script src="quiz-data.js"></script>
 <script>
