@@ -89,14 +89,14 @@ select{height:50px;padding:0 14px;border-radius:15px;background:var(--glass);bor
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}`;
 let SH=null;try{SH=new CSSStyleSheet();SH.replaceSync(CSS)}catch(e){SH=null} // один общий стиль для всех блоков (быстрее и легче)
 const mk=html=>{const h=d.createElement('div');h.className='ig-host';const r=h.attachShadow({mode:'open'});if(SH&&'adoptedStyleSheets'in r){r.adoptedStyleSheets=[SH];r.innerHTML=html}else r.innerHTML='<style>'+CSS+'</style>'+html;return[h,r]};
-const logo='<a class="logo" href="index.html" aria-label="Игротека, на главную"><span class="lg"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="5"/><path d="M7 10v4M5 12h4M15.5 11.5h.01M18 13h.01"/></svg></span>Игротека</a>';
+const logo='<a class="logo" href="/" aria-label="Игротека, на главную"><span class="lg"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="5"/><path d="M7 10v4M5 12h4M15.5 11.5h.01M18 13h.01"/></svg></span>Игротека</a>';
 const card=(g,big,i)=>{const f=isFav(g.id);return`<article class="gc${big?' big':''} rise" style="--h:${g.h};--i:${i||0}"><a class="lk" href="${g.u}" aria-label="Играть: ${esc(g.t)}"></a><div class="art"><span class="em">${g.e}${g.e2?`<i>${g.e2}</i>`:''}</span>${g.b?`<span class="bdg">${g.b}</span>`:''}</div><button class="fv${f?' on':''}" data-fav="${g.id}" aria-pressed="${f}" aria-label="В избранное">${f?'♥':'♡'}</button><div class="bd"><h3>${esc(g.t)}</h3><div class="mt"><span>${CATS[g.c]}</span><span>⏱ ${g.m}</span><span>${g.mode}</span></div><p>${esc(g.s)}</p><span class="go">Играть <b>→</b></span></div></article>`};
 const favWire=r=>r.addEventListener('click',e=>{const b=e.target.closest('[data-fav]');if(!b||b.dataset.done)return;const on=tog(b.dataset.fav);b.classList.toggle('on',on);b.textContent=on?'♥':'♡';b.setAttribute('aria-pressed',on)});
 // ---- шапка
 function header(){
-  const nav=[['index.html#catalog','Игры'],['guide.html','Руководство'],['about.html','О проекте']],more=nav.concat([['donate.html','Поддержать автора'],['privacy.html','Конфиденциальность']]);
+  const nav=[['games.html','Все игры'],['guide.html','Руководство'],['about.html','О проекте']],more=nav.concat([['donate.html','Поддержать автора'],['privacy.html','Конфиденциальность']]);
   const on=u=>u.split('#')[0].replace('.html','')===pid?' class="on" aria-current="page"':'';
-  const[h,r]=mk(`<header class="hd" id="hd"><div class="in">${logo}<nav class="m" aria-label="Основная навигация">${nav.map(n=>`<a href="${n[0]}"${on(n[0])}>${n[1]}</a>`).join('')}</nav><div class="rt"><a class="chip" id="wal" href="donate.html" title="Кристаллы" hidden>💠 0</a><a class="ico" href="index.html#search" aria-label="Поиск игр">🔍</a><a class="btn pk" href="donate.html">💖<span>Поддержать</span></a><button class="ico mb" id="bg" aria-label="Меню" aria-expanded="false">☰</button></div></div><div class="mn" id="mn" hidden>${more.map(n=>`<a href="${n[0]}">${n[1]}</a>`).join('')}</div></header>`);
+  const[h,r]=mk(`<header class="hd" id="hd"><div class="in">${logo}<nav class="m" aria-label="Основная навигация">${nav.map(n=>`<a href="${n[0]}"${on(n[0])}>${n[1]}</a>`).join('')}</nav><div class="rt"><a class="chip" id="wal" href="donate.html" title="Кристаллы" hidden>💠 0</a><a class="ico" href="/#search" aria-label="Поиск игр">🔍</a><a class="btn pk" href="donate.html">💖<span>Поддержать</span></a><button class="ico mb" id="bg" aria-label="Меню" aria-expanded="false">☰</button></div></div><div class="mn" id="mn" hidden>${more.map(n=>`<a href="${n[0]}">${n[1]}</a>`).join('')}</div></header>`);
   const hd=r.getElementById('hd'),bg=r.getElementById('bg'),mn=r.getElementById('mn');
   bg.onclick=()=>{mn.hidden=!mn.hidden;bg.setAttribute('aria-expanded',!mn.hidden);bg.textContent=mn.hidden?'☰':'✕'};
   r.addEventListener('click',e=>{if(e.target.closest('#mn a'))mn.hidden=true});
@@ -105,7 +105,7 @@ function header(){
   return h}
 // ---- панель игры над окном
 function gamebar(app){
-  const mw=getComputedStyle(app).maxWidth,[h,r]=mk(`<div class="gb"><nav class="bc" aria-label="Навигация"><a href="index.html">Игры</a><span>›</span><b>${esc(cur.t)}</b></nav><div class="ac"><button id="fv" aria-pressed="false" title="В избранное">♡<span>Избранное</span></button><button id="sh" title="Поделиться">⤴<span>Поделиться</span></button><button id="fs" title="На весь экран">⛶<span>На весь экран</span></button></div></div><div class="tt" id="tt" role="status"></div>`);
+  const mw=getComputedStyle(app).maxWidth,[h,r]=mk(`<div class="gb"><nav class="bc" aria-label="Навигация"><a href="games.html">Игры</a><span>›</span><b>${esc(cur.t)}</b></nav><div class="ac"><button id="fv" aria-pressed="false" title="В избранное">♡<span>Избранное</span></button><button id="sh" title="Поделиться">⤴<span>Поделиться</span></button><button id="fs" title="На весь экран">⛶<span>На весь экран</span></button></div></div><div class="tt" id="tt" role="status"></div>`);
   h.style.cssText='display:block;margin:6px auto 0;width:calc(100% - 20px);max-width:'+(mw&&mw!=='none'?mw:'640px');
   const $=i=>r.getElementById(i),say=m=>{const t=$('tt');t.textContent=m;t.classList.add('on');clearTimeout(say.t);say.t=setTimeout(()=>t.classList.remove('on'),2200)};
   const paint=()=>{const f=isFav(cur.id),b=$('fv');b.firstChild.nodeValue=f?'♥':'♡';b.classList.toggle('on',f);b.setAttribute('aria-pressed',f)};paint();
@@ -115,13 +115,13 @@ function gamebar(app){
   $('fs').onclick=()=>{d.fullscreenElement?d.exitFullscreen():d.documentElement.requestFullscreen().catch(()=>say('Полный экран недоступен'))};
   return h}
 // ---- описание, управление и похожие игры под окном
-function about(){
+function about(app){
   const rel=G.filter(g=>g.id!==cur.id).sort((a,b)=>(b.c===cur.c)-(a.c===cur.c)||b.p-a.p).slice(0,3);
   const[h,r]=mk(`<div class="wr"><div class="ab"><section class="pn"><h2>О игре «${esc(cur.t)}»</h2><p>${esc(cur.d)}</p><div class="meta"><span class="chip">${CATS[cur.c]}</span><span class="chip">⏱ ${cur.m}</span><span class="chip">${cur.mode}</span>${cur.g?`<a class="chip" href="${cur.g}">📖 Руководство</a>`:''}</div></section><section class="pn"><h2>Как играть</h2><ol>${cur.how.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></section></div><h2 class="sec">Похожие игры</h2><div class="grid">${rel.map((g,i)=>card(g,0,i)).join('')}</div></div>`);
-  favWire(r);return h}
+  favWire(r);if(app&&app.querySelector('section.info')){const ab=r.querySelector('.ab'),mt=ab&&ab.querySelector('.meta');if(ab){mt?ab.replaceWith(mt):ab.remove()}}return h} // текст об игре уже есть в HTML страницы, дубль не рисуем
 // ---- подвал
 function footer(){
-  const[h]=mk(`<footer class="ft"><div class="fi"><div class="fb">${logo}<p>Бесплатные игры в браузере. Без скачивания и регистрации.</p></div><div><h4>Игры</h4>${G.map(g=>`<a href="${g.u}">${esc(g.t)}</a>`).join('')}</div><div><h4>Проект</h4><a href="about.html">О проекте</a><a href="guide.html">Руководство</a><a href="privacy.html">Политика конфиденциальности</a><a href="mailto:${MAIL}">Контакты</a></div><div><h4>Поддержка</h4><a href="donate.html">💖 Поддержать автора</a><a href="mailto:${MAIL}?subject=${encodeURIComponent('Идея для Игротеки')}">💡 Предложить игру</a></div></div><div class="cp2">© 2026 Игротека. Сделано с любовью к играм.</div></footer>`);
+  const[h]=mk(`<footer class="ft"><div class="fi"><div class="fb">${logo}<p>Бесплатные игры в браузере. Без скачивания и регистрации.</p></div><div><h4>Игры</h4><a href="games.html">Все игры</a>${G.map(g=>`<a href="${g.u}">${esc(g.t)}</a>`).join('')}</div><div><h4>Проект</h4><a href="about.html">О проекте</a><a href="guide.html">Руководство</a><a href="privacy.html">Политика конфиденциальности</a><a href="mailto:${MAIL}">Контакты</a></div><div><h4>Поддержка</h4><a href="donate.html">💖 Поддержать автора</a><a href="mailto:${MAIL}?subject=${encodeURIComponent('Идея для Игротеки')}">💡 Предложить игру</a></div></div><div class="cp2">© 2026 Игротека. Сделано с любовью к играм.</div></footer>`);
   return h}
 // ---- каталог на главной: поиск, категории, сортировка, избранное, «продолжить»
 function catalog(el){
@@ -153,7 +153,7 @@ function catalog(el){
   el.replaceChildren(h)}
 function init(){
   const b=d.body;b.prepend(header());
-  const app=d.getElementById('app');if(cur&&app){app.before(gamebar(app));app.after(about())}
+  const app=d.getElementById('app');if(cur&&app){app.before(gamebar(app));app.after(about(app))}
   const c=d.getElementById('catalog');if(c)catalog(c);
   b.append(footer());
   const n=d.getElementById('ng');if(n)n.textContent=G.length}

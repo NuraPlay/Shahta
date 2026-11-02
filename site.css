@@ -57,3 +57,9 @@ main.doc{max-width:780px;margin:20px auto 36px;padding:clamp(20px,4vw,38px);back
 body.ig-doc main:not(.doc) h1{font-size:clamp(24px,5vw,32px)}
 @media (prefers-reduced-motion:no-preference){@view-transition{navigation:auto}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+/* ---- SEO-блоки под игрой и каталог игр ---- */
+.info h3{font:700 16px var(--ff);margin:16px 0 4px;color:var(--ink)}
+.pn h3{font:700 18px var(--fd);margin:0 0 6px}.pn h3 a{color:inherit;text-decoration:none}.pn h3 a:hover{color:var(--acc)}
+.pn .mt{font-size:13px;font-weight:600;color:var(--mute);margin:0 0 8px}.pn .btn{margin-top:4px}
+.pn ul{margin:0;padding-left:20px;color:var(--mute);line-height:1.7}.pn li a,.pn p a:not(.btn){color:var(--acc);font-weight:600}
+main.wrap>h2{font:700 22px var(--fd);margin:34px 0 14px}
