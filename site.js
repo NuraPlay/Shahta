@@ -1,3 +1,10 @@
+/* Google Analytics 4: один счётчик на все страницы. Если на странице уже есть свой код gtag (как на главной), второй раз не подключается.
+   Для ЕЭЗ, Великобритании и Швейцарии аналитические cookie выключены, пока посетитель не даст согласие. */
+try{(function(){const ID='G-FXXH2VHTPT';if(window.gtag)return;window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments)};
+  gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',region:['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IS','IE','IT','LV','LI','LT','LU','MT','NL','NO','PL','PT','RO','SK','SI','ES','SE','GB','CH']});
+  gtag('js',new Date());gtag('config',ID);
+  const go=()=>{const s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+ID;document.head.appendChild(s)};
+  addEventListener('load',()=>{window.requestIdleCallback?requestIdleCallback(go,{timeout:3000}):setTimeout(go,1500)})})()}catch(e){}
 /* Игротека: общий каркас сайта (шапка, подвал, панель игры, блоки под игрой, каталог на главной).
    Чтобы добавить игру на сайт, добавь объект в список G ниже: она появится в каталоге, подвале и «Похожих играх».
    Порядок «Популярных» задаётся полем p (чем больше, тем выше). */
