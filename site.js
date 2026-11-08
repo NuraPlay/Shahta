@@ -48,7 +48,7 @@ const CSS=`*{box-sizing:border-box}:host{display:block;font-family:var(--ff);col
 a{color:inherit;text-decoration:none}button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}h2,h3,h4,p,ol{margin:0}:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:12px;font-weight:600;font-size:14px;background:var(--acc);color:var(--accInk);transition:transform .2s,box-shadow .25s}.btn:hover{transform:translateY(-2px);box-shadow:0 10px 22px -10px var(--acc)}
 .pk{background:linear-gradient(135deg,var(--pink),var(--vio));color:#fff}
-.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:99px;font-size:13px;font-weight:600;background:var(--glass);border:1px solid var(--line);color:var(--mute)}a.chip:hover{color:var(--acc);border-color:var(--acc)}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;white-space:nowrap;border-radius:99px;font-size:13px;font-weight:600;background:var(--glass);border:1px solid var(--line);color:var(--mute)}a.chip:hover{color:var(--acc);border-color:var(--acc)}
 .logo{display:flex;align-items:center;gap:10px;font:800 17px var(--fd);letter-spacing:-.01em}
 .lg{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(135deg,var(--vio),var(--acc));box-shadow:0 8px 20px -8px var(--vio);transition:transform .3s}.logo:hover .lg{transform:rotate(-8deg) scale(1.07)}
 .hd{position:fixed;top:0;left:0;right:0;z-index:40;height:var(--igh);padding-top:env(safe-area-inset-top,0px);background:var(--glass);-webkit-backdrop-filter:blur(16px) saturate(1.5);backdrop-filter:blur(16px) saturate(1.5);border-bottom:1px solid transparent;transition:border-color .25s,box-shadow .25s}
@@ -59,6 +59,8 @@ nav.m{display:flex;gap:4px;margin-left:10px}nav.m a{padding:8px 13px;border-radi
 .ico{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:var(--glass);border:1px solid var(--line);font-size:17px;transition:.2s}.ico:hover{transform:translateY(-2px);border-color:var(--acc)}
 .mb{display:none}.mn{position:absolute;top:100%;right:12px;left:12px;max-width:340px;margin-left:auto;padding:8px;border-radius:18px;background:var(--card);border:1px solid var(--line);box-shadow:0 24px 50px -20px rgba(0,0,0,.6);animation:pop .2s ease-out}
 .mn a{display:block;padding:12px 14px;border-radius:12px;font-weight:500}.mn a:hover{background:var(--glass)}@keyframes pop{from{opacity:0;transform:translateY(-8px) scale(.98)}}
+@media(max-width:480px){.in{gap:8px;padding:0 10px}.logo{gap:8px;font-size:15px;white-space:nowrap}.lg{width:32px;height:32px}.rt{gap:6px;flex-shrink:0}.rt .chip{height:38px;padding:0 10px}.ico,.btn.pk{width:38px;height:38px}}
+@media(max-width:370px){.logo{font-size:14px}.lg{width:30px;height:30px}.rt .chip{padding:0 8px}}
 @media(max-width:720px){nav.m{display:none}.mb{display:grid}.btn.pk span{display:none}.btn.pk{padding:0;width:40px;height:40px;justify-content:center;font-size:17px}}
 .gb{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:2px 0}
 .bc{display:flex;align-items:center;gap:8px;min-width:0;font-size:14px;color:var(--mute)}.bc a:hover{color:var(--acc)}.bc b{color:var(--ink);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -163,6 +165,6 @@ function init(){
   const app=d.getElementById('app');if(cur&&app){app.before(gamebar(app));app.after(about(app))}
   const c=d.getElementById('catalog');if(c)catalog(c);
   b.append(footer());
-  const n=d.getElementById('ng');if(n)n.textContent=G.length}
+  const n=d.getElementById('ng');if(n&&!n.firstElementChild)n.textContent=G.length}
 d.readyState==='loading'?d.addEventListener('DOMContentLoaded',init):init();
 window.IG={games:G}})();

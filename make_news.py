@@ -246,7 +246,7 @@ def build():
          'isPartOf': {'@type': 'WebSite', 'name': 'Игротека', 'url': BASE + '/'},
          'mainEntity': {'@type': 'ItemList', 'itemListElement': [{'@type': 'ListItem', 'position': i + 1, 'url': BASE + '/' + p['url'], 'name': p['title']} for i, p in enumerate(posts)]}},
         {'@type': 'BreadcrumbList', 'itemListElement': [{'@type': 'ListItem', 'position': 1, 'name': 'Главная', 'item': BASE + '/'}, {'@type': 'ListItem', 'position': 2, 'name': 'Новости'}]}]}
-    script = ('<script>\n(function(){var g=document.getElementById("ng"),b=document.querySelectorAll(".nchips button");if(!g||!b.length)return;\n'
+    script = ('<script>\n(function(){var g=document.getElementById("nlist"),b=document.querySelectorAll(".nchips button");if(!g||!b.length)return;\n'
               'function show(c){b.forEach(function(x){var on=x.dataset.c===c;x.classList.toggle("on",on);x.setAttribute("aria-pressed",on)});g.querySelectorAll(".nc").forEach(function(a){a.hidden=!(c==="all"||a.dataset.cat===c)})}\n'
               'b.forEach(function(x){x.onclick=function(){show(x.dataset.c);history.replaceState(null,"",x.dataset.c==="all"?location.pathname:"#"+x.dataset.c)}});\n'
               'var h=location.hash.slice(1);show(h&&document.querySelector(\'.nchips [data-c="\'+h+\'"]\')?h:"all")})();\n</script>')
@@ -255,7 +255,7 @@ def build():
                 BASE + '/news.html', 'og-home.jpg', 'Новости и обновления Игротеки', 'website', '', ld) + '<body class="ig ig-doc">\n' + NOSCRIPT +
            '\n<main class="wrap" id="main" style="padding-top:28px">\n<nav class="crumbs" aria-label="Хлебные крошки"><a href="/">Главная</a> › <span>Новости</span></nav>\n'
            '<h1>Новости и обновления Игротеки</h1>\n<p class="lead">Здесь мы рассказываем, как развивается Игротека: что изменилось в играх, какие игры появились и о чём стоит знать игрокам.</p>\n'
-           '<div class="nchips" role="group" aria-label="Категории новостей">%s</div>\n<div class="about news-grid" id="ng">%s</div>\n'
+           '<div class="nchips" role="group" aria-label="Категории новостей">%s</div>\n<div class="about news-grid" id="nlist">%s</div>\n'
            '<h2>Игры Игротеки</h2>\n<p class="lead">Все игры бесплатные и работают в браузере. Полный список смотри в <a href="games.html">каталоге игр</a>.</p>\n</main>\n%s\n</body>\n</html>\n') % (chips, cards, script)
     write('news.html', lst)
 
