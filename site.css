@@ -63,3 +63,21 @@ body.ig-doc main:not(.doc) h1{font-size:clamp(24px,5vw,32px)}
 .pn .mt{font-size:13px;font-weight:600;color:var(--mute);margin:0 0 8px}.pn .btn{margin-top:4px}
 .pn ul{margin:0;padding-left:20px;color:var(--mute);line-height:1.7}.pn li a,.pn p a:not(.btn){color:var(--acc);font-weight:600}
 main.wrap>h2{font:700 22px var(--fd);margin:34px 0 14px}
+
+/* ---- новости ---- */
+.crumbs{font-size:14px;color:var(--mute);margin:0 0 12px}.crumbs a{color:var(--mute);text-decoration:none;font-weight:600}.crumbs a:hover{color:var(--acc)}
+.nchips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 6px}
+.nchips button{font:600 14px var(--ff);padding:9px 15px;border-radius:99px;border:1px solid var(--line);background:var(--glass);color:var(--ink);cursor:pointer;transition:border-color .2s,background .2s}
+.nchips button:hover{border-color:var(--acc)}.nchips button.on{background:var(--acc);color:var(--accInk);border-color:var(--acc)}
+.news-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));margin-top:16px}
+.nc{padding:0;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s}.nc[hidden]{display:none}
+.nc:hover{transform:translateY(-4px);box-shadow:var(--sh)}
+.nc .nimg{display:block;aspect-ratio:1200/630;background:var(--line)}.nc img{width:100%;height:100%;object-fit:cover;display:block}
+.nc .nb{padding:18px 20px 22px;display:flex;flex-direction:column;gap:8px;flex:1}.nc .nb>p{margin:0;font-size:15px}
+.nc h2,.nc h3{font:700 18px/1.3 var(--fd);margin:0}.nc h2 a,.nc h3 a{color:inherit;text-decoration:none}.nc h2 a:hover,.nc h3 a:hover{color:var(--acc)}
+.nc .mt{font-size:13px;color:var(--mute);margin:0}
+.ncat{display:inline-block;padding:4px 11px;border-radius:99px;font-size:12px;font-weight:700;color:#fff!important;background:var(--cc,var(--vio));text-decoration:none}
+.nws .ncover{margin:18px 0 8px}.nws .ncover img{width:100%;height:auto;aspect-ratio:1200/630;object-fit:cover;border-radius:20px;display:block}
+.nbody{font-size:17px}.nbody h3{font:700 18px var(--ff);margin:22px 0 6px}
+.doc .btn{color:var(--accInk)}.nws .about{margin-top:16px}
+@media (hover:none){.nc:hover{transform:none;box-shadow:none}}

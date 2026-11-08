@@ -101,8 +101,8 @@ const card=(g,big,i)=>{const f=isFav(g.id);return`<article class="gc${big?' big'
 const favWire=r=>r.addEventListener('click',e=>{const b=e.target.closest('[data-fav]');if(!b||b.dataset.done)return;const on=tog(b.dataset.fav);b.classList.toggle('on',on);b.textContent=on?'♥':'♡';b.setAttribute('aria-pressed',on)});
 // ---- шапка
 function header(){
-  const nav=[['games.html','Все игры'],['guide.html','Руководство'],['about.html','О проекте']],more=nav.concat([['donate.html','Поддержать автора'],['privacy.html','Конфиденциальность']]);
-  const on=u=>u.split('#')[0].replace('.html','')===pid?' class="on" aria-current="page"':'';
+  const nav=[['games.html','Все игры'],['news.html','Новости'],['guide.html','Руководство'],['about.html','О проекте']],more=nav.concat([['donate.html','Поддержать автора'],['privacy.html','Конфиденциальность']]);
+  const on=u=>{const k=u.split('#')[0].replace('.html','');return k===pid?' class="on" aria-current="page"':(k==='news'&&pid.startsWith('news-')?' class="on"':'')};
   const[h,r]=mk(`<header class="hd" id="hd"><div class="in">${logo}<nav class="m" aria-label="Основная навигация">${nav.map(n=>`<a href="${n[0]}"${on(n[0])}>${n[1]}</a>`).join('')}</nav><div class="rt"><a class="chip" id="wal" href="donate.html" title="Кристаллы" hidden>💠 0</a><a class="ico" href="/#search" aria-label="Поиск игр">🔍</a><a class="btn pk" href="donate.html">💖<span>Поддержать</span></a><button class="ico mb" id="bg" aria-label="Меню" aria-expanded="false">☰</button></div></div><div class="mn" id="mn" hidden>${more.map(n=>`<a href="${n[0]}">${n[1]}</a>`).join('')}</div></header>`);
   const hd=r.getElementById('hd'),bg=r.getElementById('bg'),mn=r.getElementById('mn');
   bg.onclick=()=>{mn.hidden=!mn.hidden;bg.setAttribute('aria-expanded',!mn.hidden);bg.textContent=mn.hidden?'☰':'✕'};
@@ -128,7 +128,7 @@ function about(app){
   favWire(r);if(app&&app.querySelector('section.info')){const ab=r.querySelector('.ab'),mt=ab&&ab.querySelector('.meta');if(ab){mt?ab.replaceWith(mt):ab.remove()}}return h} // текст об игре уже есть в HTML страницы, дубль не рисуем
 // ---- подвал
 function footer(){
-  const[h]=mk(`<footer class="ft"><div class="fi"><div class="fb">${logo}<p>Бесплатные игры в браузере. Без скачивания и регистрации.</p></div><div><h4>Игры</h4><a href="games.html">Все игры</a>${G.map(g=>`<a href="${g.u}">${esc(g.t)}</a>`).join('')}</div><div><h4>Проект</h4><a href="about.html">О проекте</a><a href="guide.html">Руководство</a><a href="privacy.html">Политика конфиденциальности</a><a href="mailto:${MAIL}">Контакты</a></div><div><h4>Поддержка</h4><a href="donate.html">💖 Поддержать автора</a><a href="mailto:${MAIL}?subject=${encodeURIComponent('Идея для Игротеки')}">💡 Предложить игру</a></div></div><div class="cp2">© 2026 Игротека. Сделано с любовью к играм.</div></footer>`);
+  const[h]=mk(`<footer class="ft"><div class="fi"><div class="fb">${logo}<p>Бесплатные игры в браузере. Без скачивания и регистрации.</p></div><div><h4>Игры</h4><a href="games.html">Все игры</a>${G.map(g=>`<a href="${g.u}">${esc(g.t)}</a>`).join('')}</div><div><h4>Проект</h4><a href="news.html">Новости</a><a href="about.html">О проекте</a><a href="guide.html">Руководство</a><a href="privacy.html">Политика конфиденциальности</a><a href="mailto:${MAIL}">Контакты</a></div><div><h4>Поддержка</h4><a href="donate.html">💖 Поддержать автора</a><a href="mailto:${MAIL}?subject=${encodeURIComponent('Идея для Игротеки')}">💡 Предложить игру</a></div></div><div class="cp2">© 2026 Игротека. Сделано с любовью к играм.</div></footer>`);
   return h}
 // ---- каталог на главной: поиск, категории, сортировка, избранное, «продолжить»
 function catalog(el){

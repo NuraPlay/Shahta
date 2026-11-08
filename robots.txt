@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /news.txt
+Disallow: /make_news.py
 
 Sitemap: https://shahta-peach.vercel.app/sitemap.xml
