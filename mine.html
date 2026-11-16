@@ -123,6 +123,16 @@ h2{font-size:15px;margin:18px 2px 8px;color:var(--mute);font-weight:600}
 .artcol{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 0}
 .artbadge{font-size:22px;line-height:1}
 details.pcard summary{cursor:pointer;font-weight:600;font-size:15px}
+#lbh{scroll-margin-top:76px}
+.lbr{display:flex;align-items:center;gap:10px;padding:8px 10px;margin:0 0 6px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg)}
+.lbr.me{border-color:var(--acc)}
+.lbr .n{flex:none;width:30px;text-align:center;font-weight:800}
+.lbr b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.lbr span{flex:none;font-weight:800;font-variant-numeric:tabular-nums}
+#lbnm{display:block;width:100%;box-sizing:border-box;font:inherit;font-size:16px;padding:10px 12px;margin:8px 0;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}
+#lbnm:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+#lbjoin,#lbre{width:100%;margin:6px 0 2px}
+#lbjoin:disabled,#lbre:disabled{opacity:.6;cursor:default}
 .achr{display:flex;gap:10px;align-items:center;padding:6px 0;font-size:14px}
 .achr.lock{opacity:.4}
 .achr small{display:block;color:var(--mute);font-size:12px}
@@ -130,7 +140,7 @@ details.pcard summary{cursor:pointer;font-weight:600;font-size:15px}
 </style>
 <link rel="stylesheet" href="site.css">
 <script src="site.js" defer></script>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","@id":"https://shahta-peach.vercel.app/mine.html#game","name":"Шахта","url":"https://shahta-peach.vercel.app/mine.html","description":"«Шахта» — бесплатный idle-кликер в браузере: копай руду, нанимай шахтёров, получай доход даже офлайн, открывай новые шахты и расти в ранге.","image":"https://shahta-peach.vercel.app/og-mine.jpg","genre":["Кликер","Idle-игра"],"gamePlatform":"Web browser","applicationCategory":"Game","operatingSystem":"Any","playMode":"SinglePlayer","inLanguage":"ru","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"KZT","availability":"https://schema.org/InStock"},"publisher":{"@id":"https://shahta-peach.vercel.app/#org"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://shahta-peach.vercel.app/"},{"@type":"ListItem","position":2,"name":"Все игры","item":"https://shahta-peach.vercel.app/games.html"},{"@type":"ListItem","position":3,"name":"Шахта","item":"https://shahta-peach.vercel.app/mine.html"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Игра бесплатная?","acceptedAnswer":{"@type":"Answer","text":"Да, полностью бесплатная. На сайте показывается реклама Google AdSense, она помогает развивать игру."}},{"@type":"Question","name":"Где хранится мой прогресс?","acceptedAnswer":{"@type":"Answer","text":"В браузере на твоём устройстве. Если очистить данные сайта или открыть игру в другом браузере, прогресс не перенесётся."}},{"@type":"Question","name":"Что такое самородки и ранги?","acceptedAnswer":{"@type":"Answer","text":"Самородки ты получаешь при сбросе через «Новую шахту». Каждый даёт +5% к доходу навсегда и одно очко исследований. Ранг растёт с каждым сбросом: Бронза, Серебро, Золото, Платина, Алмаз, Легенда, Мастер, Магнат, Титан, Повелитель."}},{"@type":"Question","name":"Как отключить звук или музыку?","acceptedAnswer":{"@type":"Answer","text":"Кнопки «Звук» и «Музыка» находятся под блоком новой шахты, их можно выключить по отдельности."}},{"@type":"Question","name":"Когда стоит открывать новую шахту?","acceptedAnswer":{"@type":"Answer","text":"Сброс доступен, когда за один заход добыт 1 миллион монет. Чем больше добыто к моменту сброса, тем больше самородков ты получишь, поэтому стоит копить, пока доход растёт."}},{"@type":"Question","name":"Нужен ли интернет, чтобы играть?","acceptedAnswer":{"@type":"Answer","text":"Интернет нужен, чтобы открыть страницу. Дальше игра считает всё на твоём устройстве, а прогресс сохраняется в браузере."}}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"VideoGame","@id":"https://shahta-peach.vercel.app/mine.html#game","name":"Шахта","url":"https://shahta-peach.vercel.app/mine.html","description":"«Шахта» — бесплатный idle-кликер в браузере: копай руду, нанимай шахтёров, получай доход даже офлайн, открывай новые шахты и расти в ранге.","image":"https://shahta-peach.vercel.app/og-mine.jpg","genre":["Кликер","Idle-игра"],"gamePlatform":"Web browser","applicationCategory":"Game","operatingSystem":"Any","playMode":"SinglePlayer","inLanguage":"ru","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"KZT","availability":"https://schema.org/InStock"},"publisher":{"@id":"https://shahta-peach.vercel.app/#org"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://shahta-peach.vercel.app/"},{"@type":"ListItem","position":2,"name":"Все игры","item":"https://shahta-peach.vercel.app/games.html"},{"@type":"ListItem","position":3,"name":"Шахта","item":"https://shahta-peach.vercel.app/mine.html"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Игра бесплатная?","acceptedAnswer":{"@type":"Answer","text":"Да, полностью бесплатная. На сайте показывается реклама Google AdSense, она помогает развивать игру."}},{"@type":"Question","name":"Где хранится мой прогресс?","acceptedAnswer":{"@type":"Answer","text":"В браузере на твоём устройстве. Если очистить данные сайта или открыть игру в другом браузере, прогресс не перенесётся."}},{"@type":"Question","name":"Что такое самородки и ранги?","acceptedAnswer":{"@type":"Answer","text":"Самородки ты получаешь при сбросе через «Новую шахту». Каждый даёт +5% к доходу навсегда и одно очко исследований. Ранг растёт с каждым сбросом: Бронза, Серебро, Золото, Платина, Алмаз, Легенда, Мастер, Магнат, Титан, Повелитель."}},{"@type":"Question","name":"Как отключить звук или музыку?","acceptedAnswer":{"@type":"Answer","text":"Кнопки «Звук» и «Музыка» находятся под блоком новой шахты, их можно выключить по отдельности."}},{"@type":"Question","name":"Когда стоит открывать новую шахту?","acceptedAnswer":{"@type":"Answer","text":"Сброс доступен, когда за один заход добыт 1 миллион монет. Чем больше добыто к моменту сброса, тем больше самородков ты получишь, поэтому стоит копить, пока доход растёт."}},{"@type":"Question","name":"Нужен ли интернет, чтобы играть?","acceptedAnswer":{"@type":"Answer","text":"Интернет нужен, чтобы открыть страницу. Дальше игра считает всё на твоём устройстве, а прогресс сохраняется в браузере."}},{"@type":"Question","name":"Как работает рейтинг?","acceptedAnswer":{"@type":"Answer","text":"В рейтинге игроки соревнуются по самой большой глубине за всё время, «Новая шахта» её не сбрасывает. Чтобы попасть в таблицу, введи ник. На сервер уходят только ник, глубина и случайный номер игрока. Призов и выплат нет, это просто игровое соревнование. Чтобы убрать ник, напиши на почту из политики конфиденциальности."}}]}]}</script>
 </head>
 <body class="ig ig-game">
 <noscript><nav style="padding:14px"><a href="games.html">Все игры</a> · <a href="about.html">О проекте</a> · <a href="privacy.html">Политика конфиденциальности</a></nav></noscript>
@@ -158,6 +168,7 @@ details.pcard summary{cursor:pointer;font-weight:600;font-size:15px}
     <button class="act" id="boost"></button>
     <button class="act" id="prest"></button>
     <button class="act" id="exch" style="grid-column:1/-1">💠 Обмен кристаллов</button>
+    <button class="act" id="lbgo" style="grid-column:1/-1">🏆 Рейтинг глубины</button>
   </div>
   <div class="pcard"><div class="pt" id="pt"></div><div class="bar"><b id="pb"></b></div><div class="pd" id="pd"></div></div>
   <h2>Улучшения</h2>
@@ -172,6 +183,18 @@ details.pcard summary{cursor:pointer;font-weight:600;font-size:15px}
   <div class="tgs"><button class="act" id="tsnd"></button><button class="act" id="tmus"></button></div>
   <h2 id="rh"></h2>
   <div class="ranks" id="ranks"></div>
+  <h2 id="lbh">🏆 Рейтинг глубины</h2>
+  <div class="pcard" id="lbbox">
+    <p class="pd" style="margin:0 0 6px">Кто копнул глубже всех. Берётся самая большая глубина за всё время, «Новая шахта» её не сбрасывает. Это игровое соревнование: призов и выплат нет.</p>
+    <div id="lbform">
+      <input id="lbnm" maxlength="14" autocomplete="off" autocapitalize="words" placeholder="Твой ник, 2–14 символов" aria-label="Ник для рейтинга">
+      <button class="buy" id="lbjoin">Войти в рейтинг</button>
+      <p class="pd" style="margin:6px 0 0">Ник и глубину увидят все игроки, не пиши личные данные. <a href="privacy.html#rating-privacy" style="color:var(--acc)">Что мы храним</a>.</p>
+    </div>
+    <p class="pd" id="lbme" style="margin:8px 0" aria-live="polite"></p>
+    <div id="lblist"><p class="pd">Таблица загрузится, когда ты пролистаешь сюда.</p></div>
+    <button class="act" id="lbre">Обновить таблицу</button>
+  </div>
   <section class="info" id="about">
     <h2>Об игре «Шахта»</h2>
     <p>«Шахта» — бесплатная idle-игра (кликер с автоматической добычей), которая работает прямо в браузере на телефоне и компьютере. Ничего скачивать и устанавливать не нужно: открыл страницу и можно копать. Прогресс сохраняется на твоём устройстве автоматически.</p>
@@ -195,6 +218,7 @@ details.pcard summary{cursor:pointer;font-weight:600;font-size:15px}
       <li>Четыре ежедневных задания с наградой.</li>
       <li>Случайные события: «Золотая жила», «Обвал», «Электрошок» и «Подземный поток».</li>
       <li>Восемь редких артефактов с постоянными бонусами.</li>
+      <li>Рейтинг игроков по максимальной глубине: по желанию, с ником, без призов и выплат.</li>
       <li>Спокойная музыка и звуки, которые можно отключить.</li>
     </ul>
     <!--seo--><h2>Кому подойдёт «Шахта»</h2>
@@ -207,6 +231,7 @@ details.pcard summary{cursor:pointer;font-weight:600;font-size:15px}
     <details><summary>Где хранится мой прогресс?</summary><p>В браузере на твоём устройстве. Если очистить данные сайта или открыть игру в другом браузере, прогресс не перенесётся.</p></details>
     <details><summary>Что такое самородки и ранги?</summary><p>Самородки ты получаешь при сбросе через «Новую шахту». Каждый даёт +5% к доходу навсегда и одно очко исследований. Ранг растёт с каждым сбросом: Бронза, Серебро, Золото, Платина, Алмаз, Легенда, Мастер, Магнат, Титан, Повелитель.</p></details>
     <details><summary>Как отключить звук или музыку?</summary><p>Кнопки «Звук» и «Музыка» находятся под блоком новой шахты, их можно выключить по отдельности.</p></details><details><summary>Когда стоит открывать новую шахту?</summary><p>Сброс доступен, когда за один заход добыт 1 миллион монет. Чем больше добыто к моменту сброса, тем больше самородков ты получишь, поэтому стоит копить, пока доход растёт.</p></details><details><summary>Нужен ли интернет, чтобы играть?</summary><p>Интернет нужен, чтобы открыть страницу. Дальше игра считает всё на твоём устройстве, а прогресс сохраняется в браузере.</p></details>
+    <details><summary>Как работает рейтинг?</summary><p>В рейтинге игроки соревнуются по самой большой глубине за всё время, «Новая шахта» её не сбрасывает. Чтобы попасть в таблицу, введи ник. На сервер уходят только ник, глубина и случайный номер игрока. Призов и выплат нет, это просто игровое соревнование. Чтобы убрать ник, напиши на почту из политики конфиденциальности.</p></details>
     <p>Больше советов в <a href="guide.html" style="color:var(--acc)">руководстве для начинающих</a>.</p>
     <h2>Играй дальше</h2>
     <p>Другие игры Игротеки: <a href="orda.html">Орда</a>, <a href="farm.html">Ферма</a>, <a href="spot.html">Найди отличия</a>, <a href="quiz.html">Викторина для команды</a>. Весь список в каталоге <a href="games.html">«Все игры»</a>.</p>
@@ -490,6 +515,57 @@ function tick(){const n=Date.now();let dt=Math.max(0,(n-S.t)/1000);S.t=n;if(dt>c
 
 tick();setInterval(tick,250);setInterval(save,5000);
 if(window.Igro){Igro.game({id:'mine',name:'Шахта',icon:'🪙',unit:'монеты (час дохода, минимум 3 000)',per:()=>Math.max(3000,ps()*3600),fmt:fmt,give:n=>{S.coins+=n;save();render()}});$('exch').onclick=()=>Igro.open('mine');const exL=()=>{$('exch').textContent='💠 Обмен кристаллов ('+Igro.bal()+')'};Igro.on(exL);exL()}
+// ---- рейтинг глубины. На сервер уходят только ник, максимальная глубина и случайный id игрока (см. политику конфиденциальности, раздел 6)
+(function(){
+const LK='mine_rank',IDR=/^[A-Z0-9]{4}-[A-Z0-9]{4}$/,NMR=/^[A-Za-zА-Яа-яЁё0-9 _-]{2,14}$/;
+let L={id:'',k:'',nm:''},rs=0,rt=0,cut=false,top=null,busy=false,seen=false;
+try{const o=JSON.parse(localStorage.getItem(LK)||'null');if(o&&IDR.test(o.id||'')&&/^[a-f0-9]{24}$/.test(o.k||''))L={id:o.id,k:o.k,nm:typeof o.nm==='string'?o.nm:''}}catch(e){}
+const lsave=()=>{try{localStorage.setItem(LK,JSON.stringify(L))}catch(e){}};
+function ident(){if(L.id)return;const A='23456789ABCDEFGHJKMNPQRSTUVWXYZ';let s='';for(const b of crypto.getRandomValues(new Uint8Array(8)))s+=A[b%A.length];
+  L.id=s.slice(0,4)+'-'+s.slice(4);L.k=[...crypto.getRandomValues(new Uint8Array(12))].map(b=>b.toString(16).padStart(2,'0')).join('');lsave()}
+const dep=()=>Math.max(S.maxD||0,dOf(S.run));
+const fd=n=>(n<1e6?Math.floor(n).toLocaleString('ru-RU'):fmt(n))+' м';
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const api=(a,o)=>fetch('/api/mrank?a='+a,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(o)}).then(r=>r.json().then(j=>{if(!r.ok)throw j;return j},()=>{throw{}}));
+const msg=e=>{const x=e&&e.error;return x==='name'?'Этот ник не подходит: нужны 2–14 букв или цифр, без ругательств':x==='slow'?'Подожди полминуты и попробуй снова':x==='ip'?'С этого адреса сегодня вошло слишком много новых игроков, попробуй завтра':x==='banned'?'Запись в рейтинг для тебя закрыта':x==='forbidden'?'Этот игрок уже зарегистрирован на другом устройстве':'Сервер недоступен, попробуй позже'};
+function draw(){
+  $('lbform').hidden=!!L.nm;
+  let me='';
+  if(L.nm){me='Ты в рейтинге как «<b>'+esc(L.nm)+'</b>». Твоя глубина: '+fd(dep());
+    if(top&&top!=='err'&&top.me)me+=', место '+top.me.r+' из '+top.total;
+    me+='.';if(cut)me+=' Сервер учитывает рост постепенно, результат подтянется за несколько минут.'}
+  $('lbme').innerHTML=me;
+  let h;
+  if(top==='err')h='<p class="pd">Рейтинг пока недоступен, попробуй позже.</p>';
+  else if(!top&&!seen)h='<p class="pd">Таблица загрузится, когда ты пролистаешь сюда.</p>';
+  else if(!top)h='<p class="pd">Загружаю…</p>';
+  else if(!top.top.length)h='<p class="pd">Пока никого нет. Стань первым!</p>';
+  else{h=top.top.map((x,i)=>'<div class="lbr'+(x.m?' me':'')+'"><div class="n">'+(['🥇','🥈','🥉'][i]||(i+1))+'</div><b>'+esc(x.n)+'</b><span>'+fd(x.s)+'</span></div>').join('');
+    if(top.total>top.top.length)h+='<p class="pd">Всего игроков в рейтинге: '+top.total+'</p>'}
+  $('lblist').innerHTML=h}
+function load(){
+  if(busy)return;busy=true;seen=true;if(!top)draw();
+  api('top',L.id?{pid:L.id}:{}).then(j=>{top=j;if(j.me)rs=Math.max(rs,j.me.s)}).catch(()=>{if(!top||top==='err')top='err'}).then(()=>{busy=false;draw()})}
+const send=nm=>{const o={pid:L.id,k:L.k,score:dep()};if(nm)o.name=nm;return api('set',o).then(j=>{rs=j.s;cut=!!j.l;return j})};
+function join(){
+  const nm=$('lbnm').value.trim().replace(/\s+/g,' ');
+  if(!NMR.test(nm)){toast('Ник: 2–14 букв или цифр, можно пробел, дефис и подчёркивание');return}
+  ident();const b=$('lbjoin');b.disabled=true;
+  send(nm).then(()=>{L.nm=nm;lsave();rt=Date.now()+(cut?60000:180000);toast('🏆 Ты в рейтинге!');top=null;load()}).catch(e=>toast(msg(e))).then(()=>{b.disabled=false;draw()})}
+// фоновая отправка: не чаще раза в 3 минуты (раз в минуту, пока сервер догоняет), и только если результат вырос больше чем на 2%
+function maybe(){
+  if(!L.nm||document.hidden||Date.now()<rt)return;
+  const d=dep();if(d<=rs||(rs>0&&!cut&&d<rs*1.02))return;
+  rt=Date.now()+(cut?60000:180000);
+  send().then(()=>{if(seen)draw()}).catch(()=>{})}
+setInterval(maybe,5000);
+$('lbjoin').addEventListener('click',join);
+$('lbnm').addEventListener('keydown',e=>{if(e.key==='Enter')join()});
+$('lbre').addEventListener('click',()=>{const b=$('lbre');b.disabled=true;setTimeout(()=>{b.disabled=false},3000);top=null;load()});
+$('lbgo').addEventListener('click',()=>{if(!seen)load();$('lbh').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'start'})});
+if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();if(!seen)load()}},{rootMargin:'200px'});io.observe($('lbbox'))}else load();
+draw();
+})();
 addEventListener('pagehide',save);document.addEventListener('visibilitychange',()=>{if(document.hidden){save();if(AC)AC.suspend()}else{tick();if(AC)AC.resume()}});
 </script>
 </body>
